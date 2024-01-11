@@ -1,0 +1,68 @@
+.rc-slider-track {
+  background-color: #b14eff;
+  height: 2px;
+}
+
+.rc-slider-rail {
+  height: 2px;
+  background: #b14eff;
+}
+
+.rc-slider-handle {
+  background-color: #b14eff;
+  border: none;
+}
+
+.rc-slider-dot-active {
+  border: 2px solid #b14eff;
+  background-color: #b14eff;
+  bottom: -3px;
+}
+
+.rc-slider-dot {
+  border: 2px solid #b14eff;
+  background-color: #b14eff;
+  bottom: -3px;
+}
+
+.rc-slider-step {
+  height: 2px;
+  background: none;
+}
+
+.rc-slider-tooltip-inner {
+  background-image: url('/icons/Union.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 19.85px;
+  height: 27.27px;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  font-size: 10px;
+  font-weight: 700;
+  color: white;
+  font-family: var(--font-family-montserrat);
+}
+
+.paint .rc-slider-tooltip-inner::after {
+  content: '%';
+}
+.artist .rc-slider-tooltip-inner::before {
+  content: '$';
+}
+
+.rc-slider-tooltip-placement-top .rc-slider-tooltip-arrow {
+  display: none;
+}
+
+.rc-slider-tooltip-placement-top {
+  padding: 4px 0 4px 0;
+}
+
+.rc-slider-mark-text,
+.rc-slider-mark-text-active {
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: var(--font-family-montserrat);
+}
