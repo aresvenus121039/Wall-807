@@ -1,79 +1,54 @@
-import React, { useState, useEffect, FC, ReactElement } from 'react';
-import {
-  FlyToInterpolator,
-  NavigationControl,
-  Popup,
-  ViewState,
-} from 'react-map-gl';
-import ReactMapGL from 'react-map-gl';
-import { ArtistSummaryPopUp } from '@/components/controls/ArtistSummaryPopUp';
-import { WallSummaryPopup } from '@/components/controls/WallSummaryPopup';
-import { ArtistMarker } from '@/components/controls/ArtistMarker';
-import { WallMarker } from '@/components/controls/WallMarker';
+import React, { useState, useEffect, FC, useRef } from 'react';
+import { Container, Box } from '@mui/material';
+import mapboxgl from 'mapbox-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
+
 import LocationMarker, {
   LocationMarkerNoPhoto,
   LocationMarkerNoCity,
 } from '@/components/controls/LocationMarker';
-import { cloudflareImage } from '@/utility/images';
 import { LocationMarkerData } from '@/types';
 
 interface LocationMapContainerProps {
-  longitude: number;
-  latitude: number;
-  zoom?: number;
-  width: string;
-  height: string;
-  isUsePhoto?: boolean;
+  bearing?: number;
+  doubleClickZoom?: boolean;
   dragPan?: boolean;
   dragRotate?: boolean;
-  scrollZoom?: boolean;
-  touchZoom?: boolean;
-  touchRotate?: boolean;
-  doubleClickZoom?: boolean;
+  height: string;
   keyboard?: boolean;
-  pitch?: number;
-  bearing?: number;
+  latitude: number;
+  longitude: number;
   mapStyle?: string;
   markerData: LocationMarkerData;
-  isMapNavControl?: boolean;
-  navigationStyle?: { top: number; right: number };
-  onWheel?: () => boolean;
+  pitch?: number;
+  scrollZoom?: boolean;
+  touchPitch?: boolean;
+  touchZoomRotate?: boolean;
+  width: string;
+  zoom?: number;
 }
 
 export const LocationMapContainer: FC<LocationMapContainerProps> = (props) => {
   const {
-    longitude,
-    latitude,
-    zoom,
-    width,
-    height,
+    bearing,
+    doubleClickZoom,
     dragPan,
     dragRotate,
-    scrollZoom,
-    touchZoom,
-    touchRotate,
-    doubleClickZoom,
+    height,
     keyboard,
-    pitch,
-    bearing,
+    latitude,
+    longitude,
     mapStyle,
     markerData,
-    isMapNavControl = false,
-    navigationStyle = { top: 20, right: 10 },
-    onWheel = () => true,
+    pitch,
+    scrollZoom,
+    touchPitch,
+    touchZoomRotate,
+    width,
+    zoom,
   } = props;
 
-  const [viewport, setViewport] = useState<ViewState>({
-    latitude: latitude,
-    longitude: longitude,
-    zoom: zoom || 0,
-  });
-
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-
   const markers: { [key: string]: React.FC<any> } = {
-    artist: ArtistMarker,
-    wall: WallMarker,
     location: LocationMarker,
     locationNoPhoto: LocationMarkerNoPhoto,
     locationNoCity: LocationMarkerNoCity,
@@ -81,7 +56,6 @@ export const LocationMapContainer: FC<LocationMapContainerProps> = (props) => {
 
   const generateMarkersData = (geoJSONData: LocationMarkerData) => {
     const markersData: any[] = [];
-    console.log('Marker data:', props.markerData);
     for (const feature of geoJSONData.features) {
       markersData.push({
         latitude: feature.geometry.coordinates[1],
@@ -101,63 +75,12 @@ export const LocationMapContainer: FC<LocationMapContainerProps> = (props) => {
     return markersData;
   };
 
-  const setSelectedMarker = (index: number | null) => {
-    setSelectedIndex(index);
-  };
-
-  const closePopup = () => {
-    setSelectedMarker(null);
-  };
-
-  const openPopup = (index: number) => {
-    setSelectedMarker(index);
-  };
-
-  const CustomPopup: React.FC<{
-    index: number;
-    markers: any[];
-    closePopup: () => void;
-  }> = ({ index, markers, closePopup }) => {
-    return (
-      <Popup
-        latitude={markers[index].latitude}
-        longitude={markers[index].longitude}
-        onClose={closePopup}
-        closeButton={true}
-        closeOnClick={false}
-        offsetTop={-45}
-      >
-        {markers[index].entity === 'artist' && (
-          <ArtistSummaryPopUp
-            imgURL={cloudflareImage(markers[index].image)}
-            userName={markers[index].name}
-            city={markers[index].address?.city}
-            state={markers[index].address?.state}
-            approved={markers[index].is_ready}
-          />
-        )}
-
-        {markers[index].entity === 'wall' && (
-          <WallSummaryPopup
-            wallImage={cloudflareImage(markers[index].image)}
-            title={markers[index].info?.title}
-            city={markers[index].address?.city}
-            state={markers[index].address?.state}
-            dimension={markers[index].info?.dimension}
-            locationOfWall={markers[index].info?.locationOfWall}
-            slug={markers[index].slug}
-          />
-        )}
-      </Popup>
-    );
-  };
-
   const renderMarkers = () => {
     return generateMarkersData(markerData).map((data, index) => {
       const Marker = data.marker;
       return (
         <Marker
-          zoom={viewport.zoom || 0}
+          zoom={zoom}
           longitude={data.longitude}
           latitude={data.latitude}
           offsetLeft={-20}
@@ -166,63 +89,120 @@ export const LocationMapContainer: FC<LocationMapContainerProps> = (props) => {
           markerImageSrc={data.image}
           key={index}
           index={index}
-          onClick={openPopup}
         />
       );
     });
   };
 
+  const mapContainer = useRef<HTMLDivElement | null>(null);
+
+  const getMapStyle = () => {
+    return mapStyle === 'light-v10'
+      ? process.env.NEXT_PUBLIC_REACT_APP_MAPBOX_STYLE_LIGHT ||
+          `mapbox://styles/mapbox/${mapStyle}`
+      : process.env.NEXT_PUBLIC_REACT_APP_MAPBOX_STYLE_DARK ||
+          `mapbox://styles/mapbox/${mapStyle}`;
+  };
+
   useEffect(() => {
-    setViewport((prevViewport) => ({
-      ...prevViewport,
-      transitionInterpolator: new FlyToInterpolator({ speed: 0 }),
-      transitionDuration: 0,
-      latitude,
-      longitude,
-      zoom: zoom || 0,
-      bearing,
-      pitch,
-    }));
-  }, [bearing, pitch, latitude, longitude, zoom]);
+    if (mapContainer.current) {
+      // Set your Mapbox access token here
+      mapboxgl.accessToken =
+        process.env.NEXT_PUBLIC_REACT_APP_MAPBOX_ACCESS_TOKEN || '';
+
+      const map = new mapboxgl.Map({
+        container: mapContainer.current,
+        style: getMapStyle(),
+        center: [longitude, latitude],
+        zoom: zoom,
+        bearing: bearing,
+        pitch: pitch,
+        dragPan: dragPan,
+        dragRotate: dragRotate,
+        scrollZoom: scrollZoom,
+        touchPitch: touchPitch,
+        touchZoomRotate: touchZoomRotate,
+        doubleClickZoom: doubleClickZoom,
+        keyboard: keyboard,
+      });
+
+      const rotateCamera = (timestamp: number) => {
+        map.rotateTo((timestamp / 100) % 360, { duration: 0 });
+        requestAnimationFrame(rotateCamera);
+      };
+
+      map.on('load', () => {
+        rotateCamera(0);
+
+        const layers = map.getStyle().layers;
+        for (const layer of layers) {
+          if (
+            layer.type === 'symbol' &&
+            layer.layout &&
+            layer.layout['text-field']
+          ) {
+            map.removeLayer(layer.id);
+          }
+        }
+
+        map.addLayer({
+          id: '3d-buildings',
+          source: 'composite',
+          'source-layer': 'building',
+          filter: ['==', 'extrude', 'true'],
+          type: 'fill-extrusion',
+          minzoom: 15,
+          paint: {
+            'fill-extrusion-color': '#aaa',
+            'fill-extrusion-height': [
+              'interpolate',
+              ['linear'],
+              ['zoom'],
+              15,
+              0,
+              15.05,
+              ['get', 'height'],
+            ],
+            'fill-extrusion-base': [
+              'interpolate',
+              ['linear'],
+              ['zoom'],
+              15,
+              0,
+              15.05,
+              ['get', 'min_height'],
+            ],
+            'fill-extrusion-opacity': 0.6,
+          },
+        });
+      });
+    }
+  }, []);
 
   return (
-    <ReactMapGL
-      {...viewport}
-      onWheel={onWheel}
-      dragPan={dragPan}
-      dragRotate={dragRotate}
-      scrollZoom={scrollZoom}
-      touchZoom={touchZoom}
-      touchRotate={touchRotate}
-      doubleClickZoom={doubleClickZoom}
-      keyboard={keyboard}
-      width={width}
-      height={height}
-      onViewportChange={setViewport}
-      mapboxApiAccessToken={
-        process.env.NEXT_PUBLIC_REACT_APP_MAPBOX_ACCESS_TOKEN || ''
-      }
-      mapOptions={{
-        style:
-          mapStyle === 'light-v10'
-            ? process.env.NEXT_PUBLIC_REACT_APP_MAPBOX_STYLE_LIGHT ||
-              `mapbox://styles/mapbox/${mapStyle}`
-            : process.env.NEXT_PUBLIC_REACT_APP_MAPBOX_STYLE_DARK ||
-              `mapbox://styles/mapbox/${mapStyle}`,
+    <Container
+      maxWidth={false}
+      sx={{
+        height: {
+          xs: '400px',
+          md: '768px',
+        },
       }}
-      pitch={pitch}
-      bearing={bearing}
     >
-      {renderMarkers()}
-      {selectedIndex !== null && (
-        <CustomPopup
-          index={selectedIndex}
-          markers={generateMarkersData(markerData)}
-          closePopup={closePopup}
-        />
-      )}
-      {isMapNavControl && <NavigationControl style={navigationStyle} />}
-    </ReactMapGL>
+      <Box
+        sx={{
+          width: '100%',
+          height: '100%',
+          overflow: 'hidden',
+          borderRadius: '24px',
+          border: '0px',
+        }}
+      >
+        <div ref={mapContainer} style={{ width: width, height: height }}>
+          {renderMarkers()}
+        </div>
+      </Box>
+    </Container>
   );
 };
 
@@ -230,13 +210,7 @@ LocationMapContainer.defaultProps = {
   dragPan: false,
   dragRotate: false,
   scrollZoom: false,
-  touchZoom: false,
-  touchRotate: false,
-  doubleClickZoom: false,
-  keyboard: false,
-  pitch: 65,
-  bearing: 0,
-  zoom: 12,
+  zoom: 15.04,
   mapStyle: 'dark-v10',
 };
 

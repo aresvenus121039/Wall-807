@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { styled } from '@mui/system';
 import Slider from 'react-slick';
-import { RightArrowIcon, LeftArrowIcon } from './../../icons/index';
+import { RightArrowIcon, LeftArrowIcon } from './../icons/index';
 import ButtonUnstyled, {
   buttonUnstyledClasses,
 } from '@mui/core/ButtonUnstyled';

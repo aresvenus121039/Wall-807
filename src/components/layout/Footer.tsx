@@ -20,7 +20,7 @@ import { REQUEST_STATUS } from '@/constants/requestStatusConstants';
 import * as Yup from 'yup';
 import Link from 'next/link';
 import useVersinInfo from '@/hooks/useVersionInfo';
-import Footer from './v4/Footer';
+import Footer from './FooterCH';
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required('Name is required field.').nullable(),
@@ -102,19 +102,20 @@ const ProxyComponent = ({ hideFooterOn = false }: ProxyComponentProps) => {
     });
   };
 
-  if (isV4) {
-    return <Footer />;
-  }
+  return <Footer />;
+  // if (isV4) {
+  //   return <Footer />;
+  // }
 
-  if (largerThanSm) {
-    return <LargeFooter />;
-  }
+  // if (largerThanSm) {
+  //   return <LargeFooter />;
+  // }
 
-  if (smallerThanSm) {
-    return <SmallFooter />;
-  }
+  // if (smallerThanSm) {
+  //   return <SmallFooter />;
+  // }
 
-  return null;
+  // return null;
 };
 
 function LargeFooter() {

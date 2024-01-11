@@ -4,7 +4,7 @@ import React, {
   MouseEventHandler,
   FormEvent,
 } from 'react';
-import { Box, Grid, CardMedia, Typography } from '@mui/material';
+import { Box, Grid, CardMedia, Typography, Tooltip } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { LoadingButton } from '@mui/lab';
 import { Formik, Field, FormikHelpers } from 'formik';
@@ -16,7 +16,6 @@ import UndecidedProposedBudget from './UndecidedProposedBudget';
 import TotalEstimatedCost from './TotalEstimatedCost';
 import ControlledInputUpload from '@/components/controls/ControlledInputUpload';
 import ControlledInputTextField from '@/components/controls/ControlledInputTextField';
-
 import InputSlider from '@/components/controls/ControlledInputSlider';
 
 import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
@@ -39,6 +38,9 @@ import {
   DEFAULT_SLIDER_MARKS,
   DEFAULT_SLIDER_MAX_VALUE,
   DEFAULT_SLIDER_MIN_VALUE,
+  ARTIST_SLIDER_MIN_VALUE,
+  ARTIST_SLIDER_MAX_VALUE,
+  DEFAULT_SLIDER_ARTIST,
 } from '@/constants/commonConstants';
 import { USER_TYPE } from '@/constants/userConstants';
 import useAuthInfo from '@/hooks/useAuthInfo';
@@ -49,11 +51,12 @@ interface FormValues {
   endDate: Date | null;
   requiredLift: boolean | null;
   pricePerSqft: number | null;
+  artistFee: number | null;
   hotelCharges: number | null;
-  travel_cost: number | null;
+  travelCost: number | null;
   paintAndMaterialCost: number | null;
   notes: string | null;
-  proposal_image: any[];
+  proposalImage: any[];
 }
 
 interface SectionHeadingProps {
@@ -79,6 +82,30 @@ interface ListingDetails {
   // Add any other properties as needed
 }
 
+const tooltipContent = {
+  startDate:
+    'Select the start date for your project, based on the dates available at the location.',
+  endDate:
+    'Select the end date for your project, based on the dates available at the location.',
+  artistFee:
+    'Enter your rate for painting each square foot of the wall, This amount should include your fee and any assistant costs.',
+  squareFeet:
+    'Estimate the total area of the wall you plan to paint in square feet.',
+  housing:
+    'What will your accommodation costs be? Include your total or Airbnb expenses.',
+  travel:
+    'Estimate your total travel costs, including getting to the site and back, any rideshares, and additional expenses like baggage.',
+  paintMaterials:
+    'List the cost of all materials needed for the project, like paint, brushes, tape, etc.',
+  totalCosts: 'This is the total of your artist fee plus all your expenses.',
+  proposedBudget:
+    "This is what the project owner expects to spend. Try to match this budget, but it's okay to propose a higher amount.",
+  referenceImage:
+    'Upload an image that represents your proposed work. It can be from past projects or any other suitable reference.',
+  notes:
+    'Use this space for any additional notes or questions you might have about the project.',
+};
+
 const validationSchema = Yup.object().shape({
   startDate: Yup.date()
     .nullable()
@@ -94,10 +121,10 @@ const validationSchema = Yup.object().shape({
     .nullable()
     .required(PRICE_PER_SQUARE_FEET_REQUIRED),
   hotelCharges: Yup.number().min(0).nullable(),
-  travel_cost: Yup.number().min(0).nullable(),
+  travelCost: Yup.number().min(0).nullable(),
   paintAndMaterialCost: Yup.number().min(0).nullable(),
   notes: Yup.string().nullable(),
-  proposal_image: Yup.array(),
+  proposalImage: Yup.array(),
 });
 
 const SubmitProposalForm: React.FC<{ styleWrap: any }> = (props) => {
@@ -148,15 +175,15 @@ const SubmitProposalForm: React.FC<{ styleWrap: any }> = (props) => {
       notes,
       pricePerSqft,
       hotelCharges,
-      travel_cost,
+      travelCost,
       paintAndMaterialCost,
-      proposal_image,
+      proposalImage,
     } = values;
 
     const basePrice = pricePerSqft! * Number(info.size);
     const otherCost =
       Number(hotelCharges!) +
-      Number(travel_cost!) +
+      Number(travelCost!) +
       Number(paintAndMaterialCost!);
 
     dispatch(
@@ -167,13 +194,13 @@ const SubmitProposalForm: React.FC<{ styleWrap: any }> = (props) => {
           end_date: endDate,
           lift_required: requiredLift,
           estimated_quote: Number(info.offered),
-          artist_proposal: basePrice + otherCost,
+          artistProposal: basePrice + otherCost,
           notes_questions: notes,
           price_per_square: pricePerSqft,
-          hotel_acommodation: Number(hotelCharges),
-          travel_cost: Number(travel_cost),
-          paint_material: Number(paintAndMaterialCost),
-          proposal_image: proposal_image.map((item) => item.file),
+          hotelAcommodation: Number(hotelCharges),
+          travelCost: Number(travelCost),
+          paintMaterial: Number(paintAndMaterialCost),
+          proposalImage: proposalImage.map((item) => item.file),
         },
         () => setSubmitting(false)
       ) as any
@@ -207,18 +234,36 @@ const SubmitProposalForm: React.FC<{ styleWrap: any }> = (props) => {
   const NormalStatus: React.FC = () => (
     <>
       <SectionHeading>Send Proposal</SectionHeading>
-      <Grid container spacing={2}>
+      <Typography
+        sx={{
+          fontWeight: 300,
+          fontSize: '14px',
+          fontFamily: 'var(--font-family-formulacondensed)',
+          fontStyle: 'normal',
+          textTransform: 'uppercase',
+          color: '#FFF',
+          paddingBottom: '39px',
+          letterSpacing: '0.56px',
+        }}
+      >
+        Interested in painting this wall? Make sure your landing page is
+        completed so you have the best opportunity. Hover over each component
+        below for help. Use the form below to calculate your cost for the
+        project.
+      </Typography>
+      <Grid container spacing={'40px'}>
         <Formik<FormValues>
           initialValues={{
             startDate: new Date(currentDate),
             endDate: null,
             requiredLift: false,
             pricePerSqft: 0,
+            artistFee: 0,
             hotelCharges: null,
-            travel_cost: null,
+            travelCost: null,
             paintAndMaterialCost: null,
             notes: null,
-            proposal_image: [],
+            proposalImage: [],
           }}
           validationSchema={validationSchema}
           onSubmit={onSubmitProposal}
@@ -226,134 +271,308 @@ const SubmitProposalForm: React.FC<{ styleWrap: any }> = (props) => {
           {({ handleSubmit, values }) => {
             const {
               pricePerSqft,
+              artistFee,
               hotelCharges,
-              travel_cost,
+              travelCost,
               paintAndMaterialCost,
             } = values;
 
             const basePrice = Number(pricePerSqft!) * Number(info?.size || 0);
             const otherCost =
               Number(hotelCharges!) +
-              Number(travel_cost!) +
+              Number(travelCost!) +
               Number(paintAndMaterialCost!);
 
             return (
               <>
-                <Grid item xs={6}>
-                  <Field
-                    component={ControlledInputTextField}
-                    textLabel="Start Date"
-                    name="startDate"
-                    typeInput="date"
-                    inputProps={{ min: currentDate, defaultValue: currentDate }}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <Field
-                    component={ControlledInputTextField}
-                    textLabel="End Date"
-                    name="endDate"
-                    typeInput="date"
-                    inputProps={
-                      values.startDate
-                        ? {
-                            min: moment(values.startDate)
-                              .utc()
-                              .format('YYYY-MM-DD'),
-                          }
-                        : { min: currentDate }
-                    }
-                  />
-                </Grid>
                 <Grid item xs={12}>
-                  <Field
-                    component={InputSlider}
-                    name="pricePerSqft"
-                    textLabel="Price per Square Foot: $"
-                    min={DEFAULT_SLIDER_MIN_VALUE}
-                    max={DEFAULT_SLIDER_MAX_VALUE}
-                    marks={DEFAULT_SLIDER_MARKS}
-                  />
-                  <Box
-                    sx={{
-                      borderBottom: '1px dashed rgba(255, 255, 255, 0.13)',
-                      width: '100%',
-                      marginTop: '28px',
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Field
-                    component={ControlledInputTextField}
-                    textLabel="Hotel Accommodations"
-                    name="hotelCharges"
-                    typeInput="tel"
-                    inputProps={{ min: 0 }}
-                    prefix={<Typography sx={{ color: 'white' }}>$</Typography>}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Field
-                    component={ControlledInputTextField}
-                    textLabel="Travel costs - Flights, car rentals, etc"
-                    name="travel_cost"
-                    typeInput="tel"
-                    inputProps={{ min: 1 }}
-                    prefix={<Typography sx={{ color: 'white' }}>$</Typography>}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Field
-                    component={ControlledInputTextField}
-                    textLabel="Paint & Materials"
-                    name="paintAndMaterialCost"
-                    typeInput="tel"
-                    inputProps={{ min: 0 }}
-                    prefix={<Typography sx={{ color: 'white' }}>$</Typography>}
-                  />
-                </Grid>
-                {info?.undecided_offered ? (
-                  <Grid item xs={12}>
-                    <Box sx={{ pt: '12px' }}>
-                      <UndecidedProposedBudget styleWrap={{}} totalCost={''} />
-                    </Box>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      <Tooltip
+                        title={
+                          'The 1st available date is hardcoded in. Please estimate how much time you would need on-site to complete the project.'
+                        }
+                        placement="top-start"
+                      >
+                        <Box
+                          sx={{
+                            cursor: 'pointer',
+                            color: '#FFF',
+                            fontFamily: 'var(--font-family-formulacondensed)',
+                            fontSize: '22px',
+                            fontStyle: 'normal',
+                            fontWeight: '700',
+                            lineHeight: '26px',
+                            letterSpacing: '0.88px',
+                          }}
+                        >
+                          When are you available for the project?
+                        </Box>
+                      </Tooltip>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Field
+                        component={ControlledInputTextField}
+                        name="startDate"
+                        typeInput="date"
+                        inputProps={{
+                          min: currentDate,
+                          defaultValue: currentDate,
+                        }}
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Field
+                        component={ControlledInputTextField}
+                        name="endDate"
+                        typeInput="date"
+                        inputProps={
+                          values.startDate
+                            ? {
+                                min: moment(values.startDate)
+                                  .utc()
+                                  .format('YYYY-MM-DD'),
+                              }
+                            : { min: currentDate }
+                        }
+                      />
+                    </Grid>
                   </Grid>
-                ) : (
-                  <Grid item xs={12}>
-                    <Box sx={{ pt: '12px' }}>
-                      <TotalProposedBudget
-                        textTotalBudget={Number(info?.offered) * 0.7}
-                        styleWrap={{}}
+                </Grid>
+                <Grid item xs={12}>
+                  <Tooltip
+                    title={
+                      'Estimate the total area of the wall you plan to paint in square feet.'
+                    }
+                    placement="top-start"
+                  >
+                    <Box className="paint">
+                      <Field
+                        component={InputSlider}
+                        name="pricePerSqft"
+                        textLabel="How much of the wall are you painting?  "
+                        min={DEFAULT_SLIDER_MIN_VALUE}
+                        max={DEFAULT_SLIDER_MAX_VALUE}
+                        marks={DEFAULT_SLIDER_MARKS}
+                      />
+                      <Box
+                        sx={{
+                          width: '100%',
+                          marginTop: '28px',
+                        }}
                       />
                     </Box>
-                  </Grid>
-                )}
+                  </Tooltip>
+                </Grid>
                 <Grid item xs={12}>
-                  <TotalEstimatedCost
-                    styleWrap={{ marginTop: '15px' }}
-                    totalCost={basePrice + otherCost}
-                  />
-                  <Box
+                  <Tooltip
+                    title={
+                      'Enter your price per SQFT for painting each square foot of the wall. This amount should include your fee and any assistant costs.'
+                    }
+                    placement="top-start"
+                  >
+                    <Box className="artist">
+                      <Field
+                        component={InputSlider}
+                        name="artistFee"
+                        textLabel="ArtistFee  "
+                        min={ARTIST_SLIDER_MIN_VALUE}
+                        max={ARTIST_SLIDER_MAX_VALUE}
+                        marks={DEFAULT_SLIDER_ARTIST}
+                      />
+                      <Box
+                        sx={{
+                          width: '100%',
+                          marginTop: '28px',
+                        }}
+                      />
+                    </Box>
+                  </Tooltip>
+                </Grid>
+                <Grid
+                  item
+                  xs={12}
+                  sx={{
+                    paddingTop: '0px !important',
+                    display: 'flex',
+                    gap: '5px',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Box>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="25"
+                      height="25"
+                      viewBox="0 0 25 25"
+                      fill="none"
+                    >
+                      <g clip-path="url(#clip0_1_2875)">
+                        <path
+                          d="M12.488 18.4646L13.7369 16.0646V9.8942C15.8862 9.3578 17.4835 7.4942 17.4835 5.2646C17.4835 2.6174 15.243 0.4646 12.488 0.4646C9.73295 0.4646 7.49246 2.6174 7.49246 5.2646C7.49246 7.4942 9.08978 9.3578 11.2391 9.8942V16.0646L12.488 18.4646Z"
+                          fill="white"
+                        />
+                        <path
+                          d="M17.8178 10.7402L17.1521 13.0538C20.388 13.913 22.4798 15.5654 22.4798 17.2646C22.4798 19.535 18.3773 22.0646 12.4888 22.0646C6.60033 22.0646 2.49776 19.535 2.49776 17.2646C2.49776 15.5654 4.58963 13.913 7.82673 13.0526L7.16108 10.739C2.74379 11.9126 0 14.4122 0 17.2646C0 21.3014 5.48633 24.4646 12.4888 24.4646C19.4913 24.4646 24.9776 21.3014 24.9776 17.2646C24.9776 14.4122 22.2338 11.9126 17.8178 10.7402Z"
+                          fill="white"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_1_2875">
+                          <rect
+                            width="24.9776"
+                            height="24"
+                            fill="white"
+                            transform="translate(0 0.4646)"
+                          />
+                        </clipPath>
+                      </defs>
+                    </svg>
+                  </Box>
+                  <Typography
                     sx={{
-                      borderBottom: '1px dashed rgba(255, 255, 255, 0.13)',
-                      width: '100%',
-                      marginTop: '28px',
+                      cursor: 'pointer',
+                      color: '#FFF',
+                      fontFamily: 'var(--font-family-formulacondensed)',
+                      fontSize: '22px',
+                      fontStyle: 'normal',
+                      fontWeight: '700',
+                      lineHeight: '26px',
+                      letterSpacing: '0.88px',
                     }}
-                  />
+                  >
+                    Accommodations
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} sx={{ paddingTop: '10px !important' }}>
+                  <Tooltip title={tooltipContent.housing} placement="top-start">
+                    <Box sx={{ cursor: 'pointer' }}>
+                      <Field
+                        component={ControlledInputTextField}
+                        textLabel=""
+                        name="hotelCharges"
+                        typeInput="tel"
+                        inputProps={{ min: 0 }}
+                        prefix={
+                          <Typography sx={{ color: 'white' }}>$</Typography>
+                        }
+                        placeholder="100"
+                      />
+                    </Box>
+                  </Tooltip>
+                </Grid>
+                <Grid item xs={12}>
+                  <Tooltip
+                    title={
+                      'Estimate your total travel costs, including getting to the site and back, any rideshares, and additional expenses like baggage.'
+                    }
+                    placement="top-start"
+                  >
+                    <Box sx={{ cursor: 'pointer' }}>
+                      <Field
+                        component={ControlledInputTextField}
+                        textLabel="Travel"
+                        name="travelCost"
+                        typeInput="tel"
+                        inputProps={{ min: 1 }}
+                        prefix={
+                          <Typography sx={{ color: 'white' }}>$</Typography>
+                        }
+                        placeholder="100"
+                      />
+                    </Box>
+                  </Tooltip>
+                </Grid>
+                <Grid item xs={12}>
+                  <Tooltip
+                    title={
+                      'List the cost of all materials needed for the project, like paint, brushes, tape, etc.'
+                    }
+                    placement="top-start"
+                  >
+                    <Box sx={{ cursor: 'pointer' }}>
+                      <Field
+                        component={ControlledInputTextField}
+                        textLabel="Paint + Materials"
+                        name="paintAndMaterialCost"
+                        typeInput="tel"
+                        inputProps={{ min: 0 }}
+                        prefix={
+                          <Typography sx={{ color: 'white' }}>$</Typography>
+                        }
+                        placeholder="750"
+                      />
+                    </Box>
+                  </Tooltip>
+                </Grid>
+                <Grid item xs={12}>
+                  <Grid container>
+                    <Grid item xs={12}>
+                      <TotalEstimatedCost
+                        styleWrap={{ marginTop: '15px' }}
+                        totalCost={basePrice + otherCost}
+                        tooltipContent={
+                          'Enter your rate for painting each square foot of the wall. This amount should include your fee and any assistant costs.'
+                        }
+                      />
+                    </Grid>
+                    {info?.undecided_offered ? (
+                      <Grid item xs={12}>
+                        <Box sx={{ pt: '12px' }}>
+                          <UndecidedProposedBudget
+                            styleWrap={{}}
+                            totalCost={''}
+                          />
+                        </Box>
+                      </Grid>
+                    ) : (
+                      <Grid item xs={12}>
+                        <Box sx={{ pt: '12px' }}>
+                          <TotalProposedBudget
+                            textTotalBudget={Number(info?.offered) * 0.7}
+                            styleWrap={{}}
+                            tooltipContent={tooltipContent.proposedBudget}
+                          />
+                        </Box>
+                      </Grid>
+                    )}
+                  </Grid>
                 </Grid>
                 <Grid item xs={12}>
                   <Field
-                    name="proposal_image"
+                    name="proposalImage"
                     component={ControlledInputUpload}
-                    textLabel="Would you like to upload a reference image?"
-                    textLabelSmall="This does not have to be a site-specific reference, this can be original or previously created work."
+                    textLabel={
+                      <Tooltip
+                        title={
+                          'Upload an image that represents your proposed work. It can be from past projects or any other suitable reference.'
+                        }
+                        placement="top-start"
+                      >
+                        <Box sx={{ cursor: 'pointer' }}>
+                          Would you like to share a reference image?
+                        </Box>
+                      </Tooltip>
+                    }
                     multiple
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <Field
                     component={ControlledInputTextField}
-                    textLabel="Please add any notes or questions below"
+                    textLabel={
+                      <Tooltip
+                        title={
+                          'Use this space for any additional notes or questions you might have about the project.'
+                        }
+                        placement="top-start"
+                      >
+                        <Box sx={{ cursor: 'pointer' }}>
+                          Anything you would like to add?
+                        </Box>
+                      </Tooltip>
+                    }
                     name="notes"
                     multiline
                     inputProps={{
@@ -361,6 +580,7 @@ const SubmitProposalForm: React.FC<{ styleWrap: any }> = (props) => {
                       maxRows: 4,
                     }}
                     typeInput="textarea"
+                    placeholder="Please add any notes or questions here. My name is artist and I am looking to paint this mural here...."
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -404,74 +624,47 @@ const SubmitProposalForm: React.FC<{ styleWrap: any }> = (props) => {
                     loading={proposalDetails.status === REQUEST_STATUS.LOADING}
                     disabled={
                       proposalDetails.status === REQUEST_STATUS.LOADING ||
-                      userInfo?.role !== USER_TYPE.ARTIST ||
-                      listingDetails?.data?.status === 'closed'
+                      userInfo?.role !== USER_TYPE.ARTIST
                     }
                     onClick={handleSubmit as MouseEventHandler<any>}
                     sx={{
-                      background:
-                        'linear-gradient(90deg, rgba(134,255,255,1) 0%, rgba(51,246,246,1) 17%, rgba(44,222,222,1) 34%, rgba(10,197,197,1) 57%, rgba(4,169,169,1) 100%)',
-                      color: '#FFFFFF',
                       fontFamily: 'var(--font-family-montserrat)',
-                      fontSize: '14px',
-                      fontWeight: '700',
+                      fontSize: '16px',
+                      fontWeight: '900',
+                      lineHeight: '22px',
+                      fontVariant: 'all-small-caps',
+                      letterSpacing: '2.56px',
                       fontStyle: 'normal',
-                      textTransform: 'capitalize',
-                      padding: '30px',
+                      textTransform: 'lowercase',
+                      padding: '18px',
                       width: '100%',
                       display: 'block',
                       textAlign: 'center',
+                      color: 'white !important',
+                      borderRadius: 'var(--radius-full)',
+                      border: '1px solid var(--opacity-white-white-35)',
+                      background: '#B14EFF',
+                      '&:hover': {
+                        color: 'var(--main-pink)',
+                        boxShadow: '0px 0px 25px 0px rgba(255, 255, 255, 0.25)',
+                        border: '1px solid var(--main-pink)',
+                        background: '#B14EFF',
+                      },
                     }}
                   >
-                    {listingDetails?.data?.status === 'closed'
-                      ? 'Listing Temporarily Closed'
-                      : 'Submit Proposal'}
+                    SUBMIT PROPOSAL
                   </LoadingButton>
                 </Grid>
               </>
             );
           }}
         </Formik>
-        <Grid item xs={12}>
-          <Typography
-            sx={{
-              color: '#FFFFFF',
-              fontFamily: 'var(--font-family-montserrat)',
-              fontSize: '16px',
-              fontWeight: '600',
-              fontStyle: 'normal',
-              textAlign: 'center',
-              paddingBottom: '4px',
-            }}
-          >
-            WXLLSPACE EXCLUSIVE
-          </Typography>
-
-          <Typography
-            sx={{
-              color: 'rgba(255, 255, 255, 0.5)',
-              fontFamily: 'var(--font-family-montserrat)',
-              fontSize: '14px',
-              fontWeight: '600',
-              fontStyle: 'normal',
-              textAlign: 'center',
-              paddingBottom: {
-                xs: '32px',
-                sm: '0',
-              },
-            }}
-          >
-            We have been granted exclusive rights to facilitate this mural and
-            we're thrilled that the stakeholders have signed on for our
-            services.
-          </Typography>
-        </Grid>
       </Grid>
     </>
   );
 
   return (
-    <Box sx={styleWrap}>
+    <Box sx={{ ...styleWrap }}>
       {status === 'archived' ? <ArchivedStatus /> : <NormalStatus />}
     </Box>
   );
@@ -482,19 +675,13 @@ const SectionHeading: React.FC<SectionHeadingProps> = ({ children }) => {
     <Typography
       variant="h2"
       sx={{
-        fontWeight: 900,
-        fontSize: '32px',
-        fontFamily: 'var(--font-family-montserrat)',
+        fontWeight: 700,
+        fontSize: '50px',
+        fontFamily: 'var(--font-family-formulacondensed)',
         fontStyle: 'normal',
-        lineHeight: '1',
-        letterSpacing: '-0.05em',
-        backgroundImage:
-          'linear-gradient(94.83deg, #FFFFFF 26.58%, #A984FF 44.93%, #64E1DC 54.77%, #6FC2FF 64.82%, #FFFFFF 78.91%) !important',
-        backgroundSize: '430px',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-        textAlign: 'center',
-        paddingBottom: '30px',
+        letterSpacing: '2px',
+        textTransform: 'uppercase',
+        color: '#D8D8D8',
       }}
     >
       {children}

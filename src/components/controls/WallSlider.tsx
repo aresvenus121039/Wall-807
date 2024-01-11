@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import _ from 'lodash';
 import { styled } from '@mui/system';
 import Slider from 'react-slick';
-import { RightArrowIcon, LeftArrowIcon } from '../../icons/index';
+import { RightArrowIcon, LeftArrowIcon } from '../icons/index';
 import ButtonUnstyled, {
   buttonUnstyledClasses,
 } from '@mui/core/ButtonUnstyled';
@@ -98,6 +98,8 @@ const WallImagesCard = ({ wallInfo }: { wallInfo: Record<string, any> }) => {
             color: '#64E1DC',
             fontSize: '12px',
             fontWeight: 400,
+            fontFamily: 'Roboto',
+            lineHeight: '14px',
           }}
         >
           {info?.offered ? `$${info.offered} - Proposed Budget` : ''}
@@ -111,6 +113,7 @@ const WallImagesCard = ({ wallInfo }: { wallInfo: Record<string, any> }) => {
           fontSize: '40px',
           fontWeight: 700,
           letterSpacing: '1.6px',
+          lineHeight: '48px',
         }}
       >
         {info.title}
@@ -134,6 +137,8 @@ const WallImagesCard = ({ wallInfo }: { wallInfo: Record<string, any> }) => {
               color: '#A6A6A6',
               fontSize: '16px',
               fontWeight: '400',
+              fontFamily: 'Roboto',
+              lineHeight: '25px',
             }}
           >
             {address.city}
@@ -157,6 +162,8 @@ const WallImagesCard = ({ wallInfo }: { wallInfo: Record<string, any> }) => {
               color: '#A6A6A6',
               fontSize: '16px',
               fontWeight: '400',
+              fontFamily: 'Roboto',
+              lineHeight: '25px',
             }}
           >
             {info.size + ' sqft'}
@@ -180,6 +187,8 @@ const WallImagesCard = ({ wallInfo }: { wallInfo: Record<string, any> }) => {
               color: '#A6A6A6',
               fontSize: '16px',
               fontWeight: '400',
+              fontFamily: 'Roboto',
+              lineHeight: '25px',
             }}
           >
             {`${info.height}H x ${info.width}L`}
@@ -246,7 +255,7 @@ const WallSlider: React.FC<WallSliderProps> = ({ otherWalls }) => {
           sx={{
             position: 'absolute',
             display: 'flex',
-            top: '93px',
+            top: '50px',
             right: '24px',
             gap: '24px',
             '@media(max-width: 425px)': {
@@ -261,7 +270,7 @@ const WallSlider: React.FC<WallSliderProps> = ({ otherWalls }) => {
               zIndex: 10,
             }}
           >
-            <PrevArrowButton onClick={() => previous} />
+            <PrevArrowButton onClick={() => previous()} />
           </Box>
           <Box
             sx={{
@@ -269,7 +278,7 @@ const WallSlider: React.FC<WallSliderProps> = ({ otherWalls }) => {
               zIndex: 10,
             }}
           >
-            <NextArrowButton onClick={() => next} />
+            <NextArrowButton onClick={() => next()} />
           </Box>
         </Box>
       )}

@@ -13,7 +13,9 @@ const WallDetailsLabel: FC<WallDetailsLabelProps> = (props) => {
     <Chip
       sx={{
         ...styleWrap,
-        borderRadius: '100px',
+        borderRadius: '12px',
+        border: '1px solid rgba(255, 255, 255, 0.30)',
+        background: 'rgba(255, 255, 255, 0.15)',
       }}
       label={text}
     />

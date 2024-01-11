@@ -14,7 +14,17 @@ const ProcessTextIcon: React.FC<ProcessTextIconProps> = ({
   description,
 }) => {
   return (
-    <Box>
+    <Box
+      sx={{
+        padding: '48px',
+        borderRadius: '24px',
+        border: '1px solid var(--opacity-white-white-35)',
+        background: 'var(--opacity-white-white-10)',
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+      }}
+    >
       <CardMedia
         loading="lazy"
         component="img"
@@ -22,44 +32,45 @@ const ProcessTextIcon: React.FC<ProcessTextIconProps> = ({
         sx={{
           height: {
             xs: '24px',
-            sm: '33px',
+            sm: '40px',
           },
           width: {
             xs: '24px',
-            sm: '32px',
+            sm: '40px',
           },
           marginBottom: {
-            xs: '12px',
-            sm: '20px',
+            xs: '24px',
+            sm: '48px',
           },
         }}
       />
+
       <Typography
         component="h4"
         sx={{
           color: 'var(--white)',
-          fontFamily: 'var(--font-family-montserrat)',
+          fontFamily: 'var(--font-family-formulacondesned)',
           fontSize: {
             xs: '14px',
-            sm: '14px',
+            sm: '22px',
           },
           fontWeight: '700',
-          fontStyle: 'normal',
-          lineHeight: '28px',
+          letterSpacing: '0.88px',
+          lineHeight: '26px',
+          marginBottom: '8px',
         }}
       >
         {title}
       </Typography>
 
       <Typography
-        component="h4"
+        component="p"
         sx={{
           color: 'var(--white)',
-          fontFamily: 'var(--font-family-montserrat)',
-          fontSize: '12px',
+          fontFamily: 'Roboto',
+          fontSize: '16px',
           fontWeight: '400',
-          fontStyle: 'normal',
-          lineHeight: '28px',
+          lineHeight: '25px',
         }}
       >
         {description}

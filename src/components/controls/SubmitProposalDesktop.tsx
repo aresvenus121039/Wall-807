@@ -6,8 +6,8 @@ const SubmitProposalDesktop: React.FC = () => {
   return (
     <Box
       sx={{
-        backgroundColor: 'rgba(255, 255, 255, 0.1)',
-        padding: '44px 16px',
+        backgroundColor: 'var(--opacity-white-white-10)',
+        padding: '48px',
         borderRadius: '24px',
       }}
     >

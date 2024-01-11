@@ -19,9 +19,9 @@ import {
 } from '@/store/reducers/userReducers';
 import { USER_TYPE } from '@/constants/userConstants';
 import Slide from '@mui/material/Slide';
-import { LogoutButton, LogoutButtonMobile } from '../../controls/LogoutButton';
-import { SignupButton } from '../../controls/v4/SignupButton';
-import { WxllspaceBlackLogo, WxllspaceColorLogo } from '../../icons';
+import { LogoutButton, LogoutButtonMobile } from '../controls/LogoutButton';
+import { SignupButton } from '../controls/SignupButton';
+import { WxllspaceBlackLogo, WxllspaceColorLogo } from '../icons';
 import Link from 'next/link';
 
 // Burger Menu
@@ -166,9 +166,9 @@ const NavBar = ({ isMarketplaceScreen }: NavBarProps) => {
           width: '100%',
           backgroundColor: 'transparent',
           color: 'var(--white)',
-          fontFamily: 'var(--font-family-montserrat)',
-          fontSize: 'var(--font-size-l)',
-          fontWeight: 700,
+          fontFamily: 'Roboto',
+          fontSize: 'var(--font-size-m)',
+          fontWeight: 600,
           fontStyle: 'normal',
           zIndex: 1000,
           boxShadow: 'none',
@@ -203,9 +203,9 @@ const NavBar = ({ isMarketplaceScreen }: NavBarProps) => {
                   <Link
                     style={{
                       color: '#FFF',
-                      fontFamily: 'var(--font-family-montserrat)',
-                      fontSize: 'var(--font-size-l)',
-                      fontWeight: 400,
+                      fontFamily: 'Roboto !important',
+                      fontSize: 'var(--font-size-m)',
+                      fontWeight: 600,
                       fontStyle: 'normal',
                       textDecoration: 'none',
                     }}
@@ -220,8 +220,8 @@ const NavBar = ({ isMarketplaceScreen }: NavBarProps) => {
                     style={{
                       color: '#FFF',
                       fontFamily: 'var(--font-family-montserrat)',
-                      fontSize: 'var(--font-size-l)',
-                      fontWeight: 400,
+                      fontSize: 'var(--font-size-m)',
+                      fontWeight: 600,
                       fontStyle: 'normal',
                       textDecoration: 'none',
                     }}
@@ -240,8 +240,8 @@ const NavBar = ({ isMarketplaceScreen }: NavBarProps) => {
                     style={{
                       color: '#FFF',
                       fontFamily: 'var(--font-family-montserrat)',
-                      fontSize: 'var(--font-size-l)',
-                      fontWeight: 400,
+                      fontSize: 'var(--font-size-m)',
+                      fontWeight: 600,
                       fontStyle: 'normal',
                       textDecoration: 'none',
                     }}
@@ -260,7 +260,7 @@ const NavBar = ({ isMarketplaceScreen }: NavBarProps) => {
                     style={{
                       color: '#FFF',
                       fontFamily: 'var(--font-family-montserrat)',
-                      fontSize: 'var(--font-size-l)',
+                      fontSize: 'var(--font-size-m)',
                       fontWeight: 400,
                       fontStyle: 'normal',
                       textDecoration: 'none',
@@ -668,17 +668,18 @@ const LoginAndSignupContainer = ({ children }: ChildrenProps) => {
 
 const NavButton = styled(Button)({
   minWidth: '30px',
-  fontFamily: 'var(--font-family-montserrat)',
-  fontSize: '12px',
+  fontFamily: 'Roboto',
+  fontSize: '14px',
   fontStyle: 'normal',
-  fontWeight: 400,
-  lineHeight: '16px',
+  fontWeight: 600,
+  lineHeight: 'normal',
   padding: '6px 12px',
   textTransform: 'uppercase',
   borderRadius: 'var(--radius-full)',
   border: '1px solid transparent',
   boxShadow: 'none',
-  color: 'var(--white)',
+  color: '#D8D8D8',
+  letterSpacing: '2.24px',
   background: 'transparent',
   '&:hover': {
     boxShadow: '0px 0px 25px 0px rgba(255, 255, 255, 0.25)',

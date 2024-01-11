@@ -17,13 +17,14 @@ const InputLabel: React.FC<InputLabelProps & TypographyProps> = (
       component="span"
       sx={{
         color: '#FFFFFF',
-        fontFamily: 'var(--font-family-montserrat)',
-        fontSize: '12px',
-        fontWeight: '600',
+        fontFamily: 'var(--font-family-formulacondensed)',
+        fontSize: '22px',
+        fontWeight: '700',
         fontStyle: 'normal',
-        letterSpacing: '0',
-        lineHeight: '28.8px',
+        letterSpacing: '0.88px',
         display: 'block',
+        marginBottom: '8px',
+        lineHeight: '26px',
         ...styleWrap,
       }}
       {...typographyProps}

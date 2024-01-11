@@ -16,7 +16,11 @@ const WallDetailsTextIcon: React.FC<WallDetailsTextIconProps> = ({
     <Box
       sx={{
         ...styleWrap,
+        borderRadius: '20px',
+        border: '1px solid var(--opacity-white-white-50)',
+        background: 'var(--opacity-white-white-10)',
         display: 'flex',
+        padding: '24px',
         flexDirection: 'row',
         flexWrap: 'nowrap',
         alignItems: 'center',

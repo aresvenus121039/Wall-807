@@ -67,12 +67,14 @@ const WallDetailsBoxIcon: React.FC<WallDetailsBoxIconProps> = (props: any) => {
           >
             <Typography
               sx={{
-                color: '#000',
-                fontFamily: 'var(--font-family-montserrat)',
-                lineHeight: 1.5,
-                fontSize: '12px',
-                fontWeight: '600',
+                color: '#D8D8D8',
+                fontFamily: 'Roboto',
+                lineHeight: '22px',
+                fontSize: '16px',
+                fontWeight: '900',
                 fontStyle: 'normal',
+                letterSpacing: '2.56px',
+                fontVariant: 'all-small-caps',
               }}
             >
               {popoverText}
@@ -99,16 +101,16 @@ const WallDetailsBoxIcon: React.FC<WallDetailsBoxIconProps> = (props: any) => {
         variant="outlined"
         sx={{
           ...styleWrap,
-          padding: '19.74px 20px',
+          padding: '24px',
           borderRadius: '12px',
-          border: '1px solid rgba(255, 255, 255, 0.2) !important',
+          border: '1px solid var(--opacity-white-white-35)',
           display: 'flex',
           flexDirection: 'row',
           flexWrap: 'nowrap',
           position: 'relative',
-          width: '100% !important',
+          width: '100%',
           justifyContent: 'start',
-          textTransform: 'unset !important',
+          textTransform: 'unset',
         }}
         onClick={handlePopoverOpen}
         onMouseLeave={handlePopoverClose}
@@ -123,7 +125,7 @@ const WallDetailsBoxIcon: React.FC<WallDetailsBoxIconProps> = (props: any) => {
             },
             height: {
               xs: '16px',
-              sm: '25px',
+              sm: '24px',
             },
             flex: '0 1 auto',
           }}
@@ -132,13 +134,13 @@ const WallDetailsBoxIcon: React.FC<WallDetailsBoxIconProps> = (props: any) => {
         <Typography
           component="p"
           sx={{
-            color: '#FFFFFF',
-            fontFamily: 'var(--font-family-montserrat)',
+            color: '#D8D8D8',
+            fontFamily: 'Roboto',
             fontSize: {
               xs: '12px',
-              sm: '14px',
+              sm: '16px',
             },
-            fontWeight: '600',
+            fontWeight: '900',
             fontStyle: 'normal',
             flex: '0 1 auto',
             padding: {
@@ -146,6 +148,8 @@ const WallDetailsBoxIcon: React.FC<WallDetailsBoxIconProps> = (props: any) => {
               sm: '0 0 0 12px',
             },
             textTransform: 'capitalize',
+            letterSpacing: '2.56px',
+            lineHeight: '22px',
           }}
         >
           {text}

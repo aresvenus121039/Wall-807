@@ -2,7 +2,6 @@ import React, { useCallback, useRef } from 'react';
 import { Box, Input, Typography, InputAdornment } from '@mui/material';
 
 import InputLabel from './InputLabel';
-import { setInitValue } from '@/utility/numberWords';
 
 interface ControlledInputTextFieldProps {
   styleWrap?: any;
@@ -13,8 +12,6 @@ interface ControlledInputTextFieldProps {
   prefix?: string;
   multiline?: boolean;
   inputProps?: any;
-  typeField?: string;
-  isUpdateField?: boolean;
   form: {
     setFieldValue: (field: string, value: any) => void;
     errors: any;
@@ -38,8 +35,6 @@ const ControlledInputTextField: React.FC<ControlledInputTextFieldProps> = (
     prefix,
     multiline,
     inputProps,
-    isUpdateField,
-    typeField,
     form: { setFieldValue, errors, touched, initialValues },
     field: { name },
     ...rest
@@ -90,6 +85,9 @@ const ControlledInputTextField: React.FC<ControlledInputTextFieldProps> = (
             WebkitTextFillColor: '#FFFFFF !important',
             backgroundColor: 'transparent !important',
           },
+          '& input::placeholder': {
+            textAlign: 'right',
+          },
           colorScheme: 'dark',
         }}
         placeholder={placeholder}
@@ -101,16 +99,11 @@ const ControlledInputTextField: React.FC<ControlledInputTextFieldProps> = (
         }
         multiline={multiline}
         inputProps={inputProps}
-        defaultValue={setInitValue(
-          name,
-          isUpdateField,
-          typeField,
-          initialValues
-        )}
+        defaultValue={initialValues[name]}
         inputRef={inputRef}
         onClick={() => {
           if (inputRef.current && typeInput === 'date') {
-            inputRef.current?.showPicker();
+            inputRef.current.showPicker();
           }
         }}
       />

@@ -15,6 +15,7 @@ import {
 import { CSSProperties, makeStyles } from '@mui/styles';
 import _ from 'lodash';
 import { cloudflareImage } from '@/utility/images';
+import { isDueDate } from '@/utility';
 import { getRichDescription } from '@/utility/getRichDescription';
 
 // import { isDueDate } from '@/utility/index';
@@ -23,6 +24,7 @@ import WallDetailsHeadInfo from './WallDetailsHeadInfo';
 import WallDetailsBoxIcon from './WallDetailsBoxIcon';
 import WallDetailsTextIcon from './WallDetailsTextIcon';
 import WallDetailsLabel from './WallDetailsLabel';
+import FeaturedImagesLabel from './FeaturedImagesLabel';
 import { Theme } from '@mui/system';
 
 interface WallDetailsSectionProps {
@@ -44,7 +46,7 @@ interface WallDetailsSectionProps {
   artStyles?: string[];
   createdAt?: string;
   direction?: string;
-  color_scheme?: string[];
+  colorscheme?: string[];
   amenities?: string[];
 }
 
@@ -56,6 +58,7 @@ interface AmenitiesInfo {
 }
 
 interface WallDetailsHeadInfoProps {
+  textDescription?: string;
   location?: string;
   dateListed?: string;
   dateDueDate?: string;
@@ -106,15 +109,11 @@ const amenitiesInfo: AmenitiesInfo[] = [
 
 const useStyles = makeStyles((theme: Theme) => {
   const commonStyles = {
-    fontWeight: 900,
-    fontFamily: 'var(--font-family-montserrat)',
+    fontWeight: 700,
+    fontFamily: 'var(--font-family-formulacondensed)',
     fontStyle: 'normal',
-    letterSpacing: '-0.05em',
-    backgroundImage:
-      'linear-gradient(90deg, rgba(169,132,255,1) 0%, rgba(100,225,220,1) 49%, rgba(111,194,255,1) 100%) !important',
-    backgroundSize: '100%',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
+    letterSpacing: '0.25rem',
+    color: 'var(--white)',
     textAlign: 'left',
     textTransform: 'capitalize',
   };
@@ -126,27 +125,30 @@ const useStyles = makeStyles((theme: Theme) => {
   });
 
   const typographyBase: CSSProperties = {
-    color: '#FFFFFF',
-    fontFamily: 'var(--font-family-montserrat)',
+    color: '#F1F0F0',
+    fontFamily: 'var(--font-family-formulacondensed)',
     fontWeight: '700',
     fontStyle: 'normal',
+    letterSpacing: '1.6px',
+    textTransform: 'capitalize',
   };
 
   return {
     sectionHeading: {
       [theme.breakpoints.only('xs')]: getStyles('32px'),
       [theme.breakpoints.only('sm')]: getStyles('32px'),
-      [theme.breakpoints.only('md')]: getStyles('60px', '90px'),
-      [theme.breakpoints.only('lg')]: getStyles('60px', '90px'),
-      [theme.breakpoints.only('xl')]: getStyles('60px', '90px'),
+      [theme.breakpoints.only('md')]: getStyles('50px', '80px'),
+      [theme.breakpoints.only('lg')]: getStyles('50px', '80px'),
+      [theme.breakpoints.only('xl')]: getStyles('80px', '100px'),
     },
     typography: {
       ...typographyBase,
-      fontSize: '16px', // default to xs size
+      fontSize: '40px', // default to xs size
+      lineHeight: '48px',
       marginBottom: '16px', // default to xs size
       [theme.breakpoints.up('md')]: {
-        fontSize: '24px',
-        marginBottom: '24px',
+        fontSize: '40px',
+        marginBottom: '32px',
       },
     },
   };
@@ -174,16 +176,18 @@ const WallDetailsSection: React.FC<WallDetailsSectionProps> = (props) => {
     createdAt,
     // acceptCrypto,
   } = props;
+
   const classes = useStyles();
 
   const direction = _.get(props, 'direction', '') || '';
-  const color_scheme = _.get(props, 'color_scheme', []) || [];
+  const colorscheme = _.get(props, 'colorscheme', []) || [];
   const amenities = _.get(props, 'amenities', []) || [];
 
   const extractWallDetailsHeadInfoProps = (
     props: WallDetailsHeadInfoProps
   ) => ({
     styleWrap: { marginBottom: { xs: '24px', md: '52.73px' } },
+    textDescription: props.textDescription,
     textLocation: props.location,
     textListed: props.dateListed,
     textDueDate: props.dateDueDate,
@@ -191,19 +195,13 @@ const WallDetailsSection: React.FC<WallDetailsSectionProps> = (props) => {
     createdAt: props.createdAt,
   });
 
-  const defaultMargin = (): { xs: string; md: string } => ({
-    xs: '40px',
-    md: '60px',
-  });
-  const gridSpacing = (): { xs: number; md: number } => ({ xs: 2, md: 4 });
-
   // RENDERS
   const renderWallDetailsBoxIcon = (
     iconImageSrc: string,
     text: string,
     popoverText: string
   ): JSX.Element => (
-    <Grid item xs={6} sm={4} md={3}>
+    <Grid item xs={6} sm={4}>
       <WallDetailsBoxIcon
         iconImageSrc={cloudflareImage(iconImageSrc)}
         text={text}
@@ -223,31 +221,20 @@ const WallDetailsSection: React.FC<WallDetailsSectionProps> = (props) => {
     // Add more box icons as needed
     return [
       renderWallDetailsBoxIcon(
-        'https://cdn.animaapp.com/projects/6183b51d6b5cbed22d564e6f/releases/6188bbd34b232d685f2fbe96/img/full-screen-2@2x.svg',
-        wallArea,
-        'Wall dimensions in feet'
-      ),
-      renderWallDetailsBoxIcon(
         'https://cdn.animaapp.com/projects/6183b51d6b5cbed22d564e6f/releases/6188bbd34b232d685f2fbe96/img/frame-2@2x.svg',
         surfaceArea,
         'Available to paint'
+      ),
+      renderWallDetailsBoxIcon(
+        'https://cdn.animaapp.com/projects/6183b51d6b5cbed22d564e6f/releases/6188bbd34b232d685f2fbe96/img/full-screen-2@2x.svg',
+        wallArea,
+        'Wall dimensions in feet'
       ),
       renderWallDetailsBoxIcon(
         'https://cdn.animaapp.com/projects/6183b51d6b5cbed22d564e6f/releases/6188bbd34b232d685f2fbe96/img/tower-crane@2x.svg',
         brick,
         'Construction type'
       ),
-      <Grid
-        item
-        md={3}
-        sx={{
-          display: {
-            xs: 'none',
-            sm: 'none',
-            md: 'block',
-          },
-        }}
-      ></Grid>,
       renderWallDetailsBoxIcon(
         'https://cdn.animaapp.com/projects/6183b51d6b5cbed22d564e6f/releases/6188bbd34b232d685f2fbe96/img/frame-5@2x.svg',
         scope,
@@ -267,81 +254,20 @@ const WallDetailsSection: React.FC<WallDetailsSectionProps> = (props) => {
   };
 
   return (
-    <Container>
-      {/* top head */}
-      <Box
-        sx={{
-          display: 'flex',
-          flexFlow: 'row nowrap',
-          alignItems: 'center',
-        }}
-      >
-        {/* title */}
-        <Box
-          sx={{
-            flex: '0 1 auto',
-            display: 'flex',
-            alignItems: { xs: 'flex-start', sm: 'center' },
-            flexFlow: {
-              xs: 'column',
-              sm: 'row',
-            },
-            marginBottom: {
-              xs: '12px',
-              sm: '0',
-            },
-          }}
-        >
-          <Typography
-            className={classes.sectionHeading}
-            variant="h1"
-            sx={{
-              marginRight: {
-                xs: '0px',
-                sm: '12px',
-              },
-              marginBottom: {
-                xs: '6px',
-                sm: '0',
-              },
-              display: 'inline-block',
-            }}
-          >
-            <h1> {title} </h1>
-          </Typography>
-          {['archived', 'closed'].includes(status as string) && (
-            <Box
-              sx={{
-                padding: '10px 20px',
-                background: 'rgba(0, 0, 0, 0.5)',
-                backdropFilter: 'blur(8px)',
-                borderRadius: '16px',
-                display: 'inline-block',
-              }}
-            >
-              <Typography
-                component={'span'}
-                sx={{
-                  fontFamily: 'var(--font-family-montserrat)',
-                  fontWeight: 700,
-                  color: 'white',
-                }}
-              >
-                {status}
-              </Typography>
-            </Box>
-          )}
-        </Box>
-      </Box>
-
+    <Grid>
       {/* head info */}
       <WallDetailsHeadInfo {...extractWallDetailsHeadInfoProps(props)} />
 
       {/* box icon list */}
       <Grid
-        sx={{ marginBottom: defaultMargin() }}
+        sx={{
+          marginBottom: {
+            xs: '40px',
+            md: '60px',
+          },
+        }}
         container
-        spacing={gridSpacing()}
+        spacing={{ xs: 2, md: 4 }}
       >
         {renderWallDetailsBoxIcons(
           wallArea,
@@ -380,8 +306,8 @@ const WallDetailsSection: React.FC<WallDetailsSectionProps> = (props) => {
             },
           }}
         >
-          {color_scheme.map((item, i) => {
-            const width = 100 / color_scheme.length;
+          {colorscheme.map((item, i) => {
+            const width = 100 / colorscheme.length;
             return (
               <div
                 key={i}
@@ -394,44 +320,6 @@ const WallDetailsSection: React.FC<WallDetailsSectionProps> = (props) => {
             );
           })}
         </Box>
-      </Box>
-
-      {/* description */}
-      <Box
-        sx={{
-          marginBottom: {
-            xs: '40px',
-            md: '60px',
-          },
-        }}
-      >
-        <Typography component="h3" className={classes.typography}>
-          Description
-        </Typography>
-
-        <Typography
-          sx={{
-            width: '100%',
-            marginTop: '10px',
-            fontFamily: 'var(--font-family-montserrat)',
-            color: 'var(--iron)',
-            letterSpacing: '0',
-            marginBottom: '-5px',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            fontSize: 'var(--font-size-m)',
-            fontWeight: '500',
-            fontStyle: 'normal',
-            lineHeight: '28.2px',
-          }}
-        >
-          <div
-            dangerouslySetInnerHTML={{
-              __html: getRichDescription(textDescription),
-            }}
-          />
-        </Typography>
       </Box>
 
       {/* additional info */}
@@ -463,8 +351,12 @@ const WallDetailsSection: React.FC<WallDetailsSectionProps> = (props) => {
         </Box>
       )}
 
-      {/* accommodations */}
-      <Box
+      <Grid
+        container
+        spacing={{
+          xs: 2,
+          md: 4,
+        }}
         sx={{
           marginBottom: {
             xs: '40px',
@@ -472,140 +364,131 @@ const WallDetailsSection: React.FC<WallDetailsSectionProps> = (props) => {
           },
         }}
       >
-        <Box
-          sx={{
-            display: 'flex',
-            flexFlow: 'row nowrap',
-            alignItems: 'baseline',
-          }}
-        >
-          <Typography component="h3" className={classes.typography}>
-            Accommodations
-          </Typography>
+        <Grid item xs={12} md={6}>
+          {/* accommodations */}
+          <Box>
+            <Box
+              sx={{
+                display: 'flex',
+                flexFlow: 'row nowrap',
+                alignItems: 'baseline',
+              }}
+            >
+              <Typography component="h3" className={classes.typography}>
+                Accommodations
+              </Typography>
+            </Box>
 
-          <Typography
+            <Grid
+              container
+              direction="column"
+              sx={{
+                borderRadius: '20px',
+                border: '1px solid var(--opacity-white-white-50)',
+                overflow: 'hidden',
+              }}
+            >
+              {amenities.map((item, i) => {
+                const details = amenitiesInfo.find(
+                  (i: AmenitiesInfo) => i.id === item
+                ) as AmenitiesInfo;
+                const { icon: Icon, type } = details || {};
+                return (
+                  <Grid key={i} item>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        padding: '24px',
+                        borderTop:
+                          i != 0
+                            ? '1px solid var(--opacity-white-white-35)'
+                            : 'none',
+                        background: 'var(--opacity-white-white-10)',
+                      }}
+                    >
+                      {Icon &&
+                        (type === 'img' ? (
+                          <CardMedia
+                            component="img"
+                            src={`/${Icon}`}
+                            sx={{
+                              width: {
+                                xs: '16px',
+                                md: '24px',
+                              },
+                              height: {
+                                xs: '16px',
+                                md: '24px',
+                              },
+                            }}
+                          />
+                        ) : (
+                          <Icon
+                            sx={{
+                              width: {
+                                xs: '16px',
+                                md: '24px',
+                              },
+                              height: {
+                                xs: '16px',
+                                md: '24px',
+                              },
+                            }}
+                          />
+                        ))}
+                      <Typography
+                        component="p"
+                        sx={{
+                          color: '#FFF',
+                          fontFamily: 'Roboto',
+                          fontSize: {
+                            xs: '12px',
+                            md: '16px',
+                          },
+                          fontWeight: '400',
+                          fontStyle: 'normal',
+                          marginLeft: '10px',
+                          lineHeight: '25px',
+                        }}
+                      >
+                        {details?.label || item}
+                      </Typography>
+                    </Box>
+                  </Grid>
+                );
+              })}
+            </Grid>
+          </Box>
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          {/* details */}
+          <Box
             sx={{
-              color: '#FFFFFF',
-              fontFamily: 'var(--font-family-montserrat)',
-              fontSize: '12px',
-              fonWeight: '400',
+              display: 'flex',
+              padding: '18px 48px',
+              justifyContent: 'center',
+              alignItems: 'center',
+              alignSelf: 'stretch',
+              borderRadius: '1000px',
+              border: '1px solid rgba(255, 255, 255, 0.35)',
+              background: '#B14EFF',
+              backdropFilter: 'blur(20px)',
+              color: '#FFF',
+              textAlign: 'center',
+              fontFamily: 'Roboto',
+              fontSize: '16px',
               fontStyle: 'normal',
-              lineHeight: '28.2px',
-              marginBottom: {
-                xs: '16px',
-                sm: '24.29px',
-              },
-              paddingLeft: '8px',
+              fontWeight: '900',
+              lineHeight: '25px',
+              marginTop: '20px',
             }}
           >
-            Available at the property
-          </Typography>
-        </Box>
-
-        <Grid
-          sx={{
-            maxWidth: '470px',
-            marginBottom: {
-              xs: '40px',
-              md: '60px',
-            },
-          }}
-          container
-          spacing={{
-            xs: 2,
-            md: 4,
-          }}
-        >
-          {amenities.map((item, i) => {
-            const details = amenitiesInfo.find(
-              (i: AmenitiesInfo) => i.id === item
-            ) as AmenitiesInfo;
-            const { icon: Icon, type } = details || {};
-            return (
-              <Grid key={i} item xs={12} sm={12} md={6} lg={6}>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                  }}
-                >
-                  {Icon &&
-                    (type === 'img' ? (
-                      <CardMedia
-                        component="img"
-                        src={`/${Icon}`}
-                        sx={{
-                          width: {
-                            xs: '16px',
-                            md: '24px',
-                          },
-                          height: {
-                            xs: '16px',
-                            md: '24px',
-                          },
-                        }}
-                      />
-                    ) : (
-                      <Icon
-                        sx={{
-                          width: {
-                            xs: '16px',
-                            md: '24px',
-                          },
-                          height: {
-                            xs: '16px',
-                            md: '24px',
-                          },
-                        }}
-                      />
-                    ))}
-                  <Typography
-                    component="p"
-                    sx={{
-                      color: '#D8D8D8',
-                      fontFamily: 'var(--font-family-montserrat)',
-                      fontSize: {
-                        xs: '12px',
-                        md: '16px',
-                      },
-                      fontWeight: '500',
-                      fontStyle: 'normal',
-                      marginLeft: '10px',
-                    }}
-                  >
-                    {details?.label || item}
-                  </Typography>
-                </Box>
-              </Grid>
-            );
-          })}
+            Wall Details
+          </Box>
         </Grid>
-      </Box>
-
-      {/* details */}
-      <Box
-        sx={{
-          marginBottom: {
-            xs: '40px',
-            md: '60px',
-          },
-        }}
-      >
-        <Typography component="h3" className={classes.typography}>
-          Wall Details
-        </Typography>
-
-        <WallDetailsTextIcon
-          text={` ${condition}`}
-          iconImageSrc="https://cdn.animaapp.com/projects/6183b51d6b5cbed22d564e6f/releases/6188ec2d5ccaaa2d0a5b6d4e/img/vector@2x.svg"
-          styleWrap={{
-            marginBottom: {
-              xs: '16px',
-              sm: '18px',
-            },
-          }}
-        />
-      </Box>
+      </Grid>
 
       {/* interested art styles */}
       {artStyles && (
@@ -614,15 +497,23 @@ const WallDetailsSection: React.FC<WallDetailsSectionProps> = (props) => {
             Interested Art Styles
           </Typography>
 
-          <Grid container spacing={0}>
-            <Grid item sm={10}>
-              {artStyles?.map((item) => (
+          <Grid container>
+            <Grid item sm={12}>
+              {artStyles?.map((item, index) => (
                 <WallDetailsLabel
+                  key={index}
                   text={item}
                   styleWrap={{
                     margin: '0 12px 24px 0',
                     background: 'rgba(255, 255, 255, 0.1)',
                     backdropFilter: 'blur(60px)',
+                    fontSize: '16px',
+                    fontFamily: 'Roboto',
+                    fontStyle: 'normal',
+                    fontWeight: '900',
+                    lineHeight: '22px',
+                    fontVariant: 'all-small-caps',
+                    letterSpacing: '2.56px',
                   }}
                 />
               ))}
@@ -630,7 +521,7 @@ const WallDetailsSection: React.FC<WallDetailsSectionProps> = (props) => {
           </Grid>
         </Box>
       )}
-    </Container>
+    </Grid>
   );
 };
 

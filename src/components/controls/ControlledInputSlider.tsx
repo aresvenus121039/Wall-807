@@ -43,7 +43,7 @@ const ControlledInputSlider: React.FC<ControlledInputSliderProps> = (props) => {
   return (
     <Box sx={styleWrap}>
       <InputLabel
-        text={`${textLabel}${values[name]}`}
+        text={`${textLabel}`}
         styleWrap={{
           position: 'relative',
           marginBottom: '12px',

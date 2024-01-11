@@ -6,14 +6,14 @@ import { useDispatch } from 'react-redux';
 import _ from 'lodash';
 import gtag from 'ga-gtag';
 
-import FeaturedImagesSection from '@/components/controls/v4/FeaturedImagesSection';
-import WallDetailsSection from '@/components/controls/v4/WallDetailsSection';
-import LocationMapContainer from '@/components/controls/v4/LocationMapContainer';
-import ProcessSection from '@/components/controls/v4/ProcessSection';
-import SubmitProposalDesktop from '@/components/controls/v4/SubmitProposalDesktop';
-import SubmitProposalPopup from '@/components/controls/v4/SubmitProposalPopup';
-import WallSlider from '@/components/controls/v4/WallSlider';
-import FeaturedImagesLabel from '@/components/controls/v4/FeaturedImagesLabel';
+import FeaturedImagesSection from '@/components/controls/FeaturedImagesSection';
+import WallDetailsSection from '@/components/controls/WallDetailsSection';
+import LocationMapContainer from '@/components/controls/LocationMapContainer';
+import ProcessSection from '@/components/controls/ProcessSection';
+import SubmitProposalDesktop from '@/components/controls/SubmitProposalDesktop';
+import SubmitProposalPopup from '@/components/controls/SubmitProposalPopup';
+import WallSlider from '@/components/controls/WallSlider';
+import FeaturedImagesLabel from '@/components/controls/FeaturedImagesLabel';
 import { formatDate } from '@/utility';
 import { cloudflareImage } from '@/utility/images';
 import { WALL_GET_DETAILS_SUCCESS } from '@/constants/listingConstants';
@@ -105,6 +105,8 @@ const Wall = (props: any) => {
 
   const classes = useStyles();
 
+  console.log('[props--->]', props);
+
   const coordinates = _.get(listingDetails, 'location.coordinates', []) || [];
   const longitude = _.get(coordinates, [0], 0) || 0;
   const latitude = _.get(coordinates, [1], 0) || 0;
@@ -168,6 +170,7 @@ const Wall = (props: any) => {
           sx={{
             position: 'relative',
             zIndex: 2,
+            marginBottom: '400px',
           }}
         >
           <Grid container>
@@ -346,6 +349,114 @@ const Wall = (props: any) => {
                             }}
                           >
                             {address.city + ', ' + address.state}
+                          </Typography>
+                        </Box>
+                        <Box
+                          sx={{
+                            flex: '0 1 auto',
+                            padding: {
+                              xs: '0 0 12px 0',
+                              sm: '0 14px 0 0',
+                            },
+                            display: 'flex',
+                            flexDirection: 'row',
+                            flexWrap: 'nowrap',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <CardMedia
+                            component="img"
+                            image={cloudflareImage(
+                              'https://cdn.animaapp.com/projects/6183b51d6b5cbed22d564e6f/releases/6188bbd34b232d685f2fbe96/img/frame@2x.svg'
+                            )}
+                            sx={{
+                              width: {
+                                xs: '16px',
+                                md: '24px',
+                              },
+                              height: {
+                                xs: '16px',
+                                md: '25px',
+                              },
+                              flex: '0 1 auto',
+                            }}
+                          />
+
+                          <Typography
+                            component="h2"
+                            sx={{
+                              color: '#D8D8D8',
+                              fontFamily: 'Roboto',
+                              fontSize: {
+                                xs: '14px',
+                                md: '22px',
+                              },
+                              fontWeight: '900',
+                              fontStyle: 'normal',
+                              flex: '0 1 auto',
+                              padding: {
+                                xs: '0 0 0 8px',
+                                md: '0 0 0 12px',
+                              },
+                              letterSpacing: '3.52px',
+                              fontVariant: 'all-small-caps',
+                            }}
+                          >
+                            {'12 PROPOSALS'}
+                          </Typography>
+                        </Box>
+                        <Box
+                          sx={{
+                            flex: '0 1 auto',
+                            padding: {
+                              xs: '0 0 12px 0',
+                              sm: '0 14px 0 0',
+                            },
+                            display: 'flex',
+                            flexDirection: 'row',
+                            flexWrap: 'nowrap',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <CardMedia
+                            component="img"
+                            image={cloudflareImage(
+                              'https://cdn.animaapp.com/projects/6183b51d6b5cbed22d564e6f/releases/6188bbd34b232d685f2fbe96/img/frame@2x.svg'
+                            )}
+                            sx={{
+                              width: {
+                                xs: '16px',
+                                md: '24px',
+                              },
+                              height: {
+                                xs: '16px',
+                                md: '25px',
+                              },
+                              flex: '0 1 auto',
+                            }}
+                          />
+
+                          <Typography
+                            component="h2"
+                            sx={{
+                              color: '#D8D8D8',
+                              fontFamily: 'Roboto',
+                              fontSize: {
+                                xs: '14px',
+                                md: '22px',
+                              },
+                              fontWeight: '900',
+                              fontStyle: 'normal',
+                              flex: '0 1 auto',
+                              padding: {
+                                xs: '0 0 0 8px',
+                                md: '0 0 0 12px',
+                              },
+                              letterSpacing: '3.52px',
+                              fontVariant: 'all-small-caps',
+                            }}
+                          >
+                            {'OWNERS PROPOSED BUDGET: $13,150'}
                           </Typography>
                         </Box>
                       </Box>
@@ -585,7 +696,7 @@ const Wall = (props: any) => {
                 zIndex: 1,
               }}
             >
-              <Typography
+              {/* <Typography
                 component={'p'}
                 sx={{
                   fontFamily: 'var(--font-family-montserrat)',
@@ -596,7 +707,7 @@ const Wall = (props: any) => {
                 }}
               >
                 send your proposal!
-              </Typography>
+              </Typography> */}
 
               <Typography
                 component={'h2'}

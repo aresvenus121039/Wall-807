@@ -1,90 +1,94 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, Tooltip } from '@mui/material';
 
 interface TotalEstimatedCostProps {
   styleWrap: React.CSSProperties;
   totalCost: number | string;
+  tooltipContent: string;
 }
 
 const TotalEstimatedCost: React.FC<TotalEstimatedCostProps> = ({
   styleWrap,
   totalCost,
+  tooltipContent,
 }) => {
   return (
-    <Box
-      sx={{
-        ...styleWrap,
-        backgroundColor: 'rgba(0, 200, 200, 0.1)',
-        padding: '21px 18px',
-        borderRadius: '8px',
-        border: '1px solid #00C8C8',
-        maxWidth: '1000px',
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'row',
-        flexWrap: 'nowrap',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      }}
-    >
-      <Typography
-        component="h5"
-        sx={{
-          color: '#00C8C8',
-          fontSize: {
-            xs: '12px',
-            sm: '14px',
-          },
-          fontWeight: '700',
-          paddingRight: {
-            xs: '12px',
-            sm: '15px',
-          },
-          flex: '1 1 auto',
-        }}
-      >
-        Total Est. Cost:
-      </Typography>
-
+    <Tooltip title={tooltipContent} placement="top-start">
       <Box
         sx={{
+          ...styleWrap,
+          backgroundColor: 'rgba(177, 78, 255, 0.10)',
+          padding: '21px 18px',
+          borderRadius: '8px',
+          border: '1px solid rgba(177, 78, 255, 0.50)',
+          maxWidth: '1000px',
+          width: '100%',
           display: 'flex',
           flexDirection: 'row',
           flexWrap: 'nowrap',
-          alignItems: 'end',
+          alignItems: 'center',
+          justifyContent: 'space-between',
         }}
       >
         <Typography
-          component="h4"
+          component="h5"
           sx={{
-            color: '#00C8C8',
+            color: 'rgba(177, 78, 255, 0.50)',
             fontSize: {
-              xs: '20px',
-              sm: '24px',
+              xs: '12px',
+              sm: '14px',
             },
             fontWeight: '700',
+            paddingRight: {
+              xs: '12px',
+              sm: '15px',
+            },
+            flex: '1 1 auto',
           }}
         >
-          {Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-          }).format(Number(totalCost))}
+          Total Estimated Cost:
         </Typography>
 
-        <Typography
-          component="span"
+        <Box
           sx={{
-            color: '#00C8C8',
-            fontSize: '14px',
-            fontWeight: '700',
-            paddingBottom: '4px',
-            paddingLeft: '5px',
+            display: 'flex',
+            flexDirection: 'row',
+            flexWrap: 'nowrap',
+            alignItems: 'end',
           }}
         >
-          USD
-        </Typography>
+          <Typography
+            component="h4"
+            sx={{
+              color: 'rgba(177, 78, 255, 0.50)',
+              fontSize: {
+                xs: '20px',
+                sm: '24px',
+              },
+              fontWeight: '700',
+            }}
+          >
+            {Intl.NumberFormat('en-US', {
+              style: 'currency',
+              currency: 'USD',
+            }).format(Number(totalCost))}
+          </Typography>
+
+          <Typography
+            component="span"
+            sx={{
+              color: 'rgba(177, 78, 255, 0.50)',
+              fontSize: '14px',
+              fontWeight: '700',
+              paddingBottom: '4px',
+              paddingLeft: '5px',
+            }}
+          >
+            USD
+          </Typography>
+        </Box>
       </Box>
-    </Box>
+    </Tooltip>
   );
 };
 

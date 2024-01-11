@@ -1,4 +1,4 @@
-import WallScreen from '@/screens/Wall/index';
+import V4WallScreen from '@/screens/Wall/index';
 
 import type {
   InferGetServerSidePropsType,
@@ -12,19 +12,20 @@ import _ from 'lodash';
 import { cloudflareImage } from '@/utility/images';
 import withAuth from '@/components/hocs/withAuth';
 
-function WallPage({
+function V4WallPage({
   config,
   listing,
+  otherWalls,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <>
       <NextSeo {...config} />
-      <WallScreen listingDetails={listing} />
+      <V4WallScreen listingDetails={listing} otherWalls={otherWalls} />
     </>
   );
 }
 
-export default WallPage;
+export default V4WallPage;
 
 export const getServerSideProps = (async (
   context: GetServerSidePropsContext
@@ -33,6 +34,8 @@ export const getServerSideProps = (async (
     const { params: { slug = '' } = {} } = context;
     const apiUrl = getApiDestination(process.env.ENV);
     const { data: listing } = await axios.get(apiUrl + `/listings/${slug}`);
+    const { data } = await axios.get(apiUrl + `/listings/last/five`);
+    const { listings: otherWalls } = data;
 
     const {
       info: {
@@ -42,7 +45,7 @@ export const getServerSideProps = (async (
         images: wallImages = [],
         title: listingTitle = '',
       } = {},
-      feature_image: [{ location = '' } = {}] = [],
+      featureImage: [{ location = '' } = {}] = [],
     } = listing;
 
     const title = (listingTitle || '').replace(
@@ -92,6 +95,7 @@ export const getServerSideProps = (async (
           },
         },
         listing,
+        otherWalls,
       },
     };
   } catch (error) {
@@ -102,4 +106,5 @@ export const getServerSideProps = (async (
 }) as GetServerSideProps<{
   config: NextSeoProps;
   listing: Record<string, any>;
+  otherWalls: Array<Record<string, any>>;
 }>;

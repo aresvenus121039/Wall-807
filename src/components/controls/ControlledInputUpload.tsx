@@ -66,10 +66,9 @@ const InputUpload: React.FC<InputUploadProps> = (props) => {
   const onChange = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
       let filesDataURL = Array.from(e.target.files!).map((file) => {
-        return new Promise((resolve, reject) => {
-          let reader = new FileReader();
+        let reader = new FileReader();
+        return new Promise((resolve) => {
           reader.onload = () => resolve({ file, dataURL: reader.result });
-          reader.onerror = reject;
           reader.readAsDataURL(file);
         });
       });

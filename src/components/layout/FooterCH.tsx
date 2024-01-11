@@ -165,9 +165,10 @@ const Footer = () => {
                     fontFamily: 'var(--font-family-formulacondensed)',
                     fontWeight: '700',
                     color: '#F1F0F0',
-                    fontSize: '50px',
-                    letterSpacing: '2px',
+                    fontSize: '40px',
+                    letterSpacing: '1.6px',
                     textTransform: 'uppercase',
+                    lineHeight: '48px',
                   }}
                 >
                   Want To Stay In The Loop?
@@ -211,6 +212,7 @@ const Footer = () => {
                   <Box sx={{}}>
                     <Button
                       sx={{
+                        fontFamily: 'Roboto',
                         marginLeft: '8px',
                         paddingRight: '24px',
                         paddingLeft: '24px',
