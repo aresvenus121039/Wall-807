@@ -65,7 +65,7 @@ export const LocationMapContainer: FC<LocationMapContainerProps> = (props) => {
         name: feature.properties.name,
         info: feature.properties.info,
         address: feature.properties.address,
-        isReady: feature.properties.isReady,
+        is_ready: feature.properties.is_ready,
         marker: markers[feature.properties.entity],
         entity: feature.properties.entity,
         slug: feature.properties.slug,
