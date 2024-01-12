@@ -319,6 +319,7 @@ const SubmitProposalForm: React.FC<{ styleWrap: any }> = (props) => {
                           min: currentDate,
                           defaultValue: currentDate,
                         }}
+                        dir={'left'}
                       />
                     </Grid>
                     <Grid item xs={6}>
@@ -335,6 +336,7 @@ const SubmitProposalForm: React.FC<{ styleWrap: any }> = (props) => {
                               }
                             : { min: currentDate }
                         }
+                        dir={'left'}
                       />
                     </Grid>
                   </Grid>
@@ -375,7 +377,7 @@ const SubmitProposalForm: React.FC<{ styleWrap: any }> = (props) => {
                       <Field
                         component={InputSlider}
                         name="artistFee"
-                        textLabel="ArtistFee  "
+                        textLabel="Artist Fee  "
                         min={ARTIST_SLIDER_MIN_VALUE}
                         max={ARTIST_SLIDER_MAX_VALUE}
                         marks={DEFAULT_SLIDER_ARTIST}
@@ -452,12 +454,13 @@ const SubmitProposalForm: React.FC<{ styleWrap: any }> = (props) => {
                         component={ControlledInputTextField}
                         textLabel=""
                         name="hotelCharges"
-                        typeInput="tel"
-                        inputProps={{ min: 0 }}
+                        typeInput="number"
+                        inputProps={{ min: 0, max: 1000 }}
                         prefix={
                           <Typography sx={{ color: 'white' }}>$</Typography>
                         }
                         placeholder="100"
+                        dir={'right'}
                       />
                     </Box>
                   </Tooltip>
@@ -474,12 +477,13 @@ const SubmitProposalForm: React.FC<{ styleWrap: any }> = (props) => {
                         component={ControlledInputTextField}
                         textLabel="Travel"
                         name="travelCost"
-                        typeInput="tel"
-                        inputProps={{ min: 1 }}
+                        typeInput="number"
+                        inputProps={{ min: 1, max: 1000 }}
                         prefix={
                           <Typography sx={{ color: 'white' }}>$</Typography>
                         }
                         placeholder="100"
+                        dir={'right'}
                       />
                     </Box>
                   </Tooltip>
@@ -496,12 +500,13 @@ const SubmitProposalForm: React.FC<{ styleWrap: any }> = (props) => {
                         component={ControlledInputTextField}
                         textLabel="Paint + Materials"
                         name="paintAndMaterialCost"
-                        typeInput="tel"
-                        inputProps={{ min: 0 }}
+                        typeInput="number"
+                        inputProps={{ min: 0, max: 1000 }}
                         prefix={
                           <Typography sx={{ color: 'white' }}>$</Typography>
                         }
                         placeholder="750"
+                        dir={'right'}
                       />
                     </Box>
                   </Tooltip>

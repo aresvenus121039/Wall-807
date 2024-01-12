@@ -46,7 +46,7 @@ const ControlledInputSlider: React.FC<ControlledInputSliderProps> = (props) => {
         text={`${textLabel}`}
         styleWrap={{
           position: 'relative',
-          marginBottom: '12px',
+          marginBottom: '24px',
         }}
       />
       <Box

@@ -21,12 +21,14 @@ interface ControlledInputTextFieldProps {
   field: {
     name: string;
   };
+  dir: string
 }
 
 const ControlledInputTextField: React.FC<ControlledInputTextFieldProps> = (
   props
 ) => {
   const {
+    dir,
     styleWrap,
     textLabel,
     textLabelSmall,
@@ -42,7 +44,11 @@ const ControlledInputTextField: React.FC<ControlledInputTextFieldProps> = (
 
   const onChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      const { value } = event.target;
+      const { value, max, type } = event.target;
+      if( type == 'number' && Number(value) > Number(max) ) {
+        inputRef.current.value = Math.floor(Number(value) / 10);
+        return;
+      }
       setFieldValue(name, value || '');
     },
     [setFieldValue, name]
@@ -87,6 +93,9 @@ const ControlledInputTextField: React.FC<ControlledInputTextFieldProps> = (
           },
           '& input::placeholder': {
             textAlign: 'right',
+          },
+          '& input': {
+            textAlign: dir,
           },
           colorScheme: 'dark',
         }}

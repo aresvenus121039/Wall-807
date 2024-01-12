@@ -33,9 +33,9 @@
 .rc-slider-tooltip-inner {
   background-image: url('/icons/Union.svg');
   background-repeat: no-repeat;
-  background-size: contain;
-  width: 19.85px;
-  height: 27.27px;
+  background-size: cover;
+  width: 32.55px;
+  height: 33.77px;
   background-color: transparent !important;
   box-shadow: none !important;
   font-size: 10px;
