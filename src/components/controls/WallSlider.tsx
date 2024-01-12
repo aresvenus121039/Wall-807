@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import Link from 'next/link';
 import _ from 'lodash';
 import { styled } from '@mui/system';
 import Slider from 'react-slick';
@@ -60,6 +61,7 @@ const WallImagesCard = ({ wallInfo }: { wallInfo: Record<string, any> }) => {
   const images = _.get(wallInfo, 'images', []) || [];
   const info = _.get(wallInfo, 'info', {}) || {};
   const address = _.get(wallInfo, 'address', {}) || {};
+  const slug = _.get(wallInfo, 'slug', {}) || {};
 
   return (
     <Box
@@ -70,6 +72,7 @@ const WallImagesCard = ({ wallInfo }: { wallInfo: Record<string, any> }) => {
         padding: '16px',
       }}
     >
+      <Link href={`/wall/${slug}`}>
       <CardMedia
         component="img"
         image={images.length > 0 ? cloudflareImage(images[0].location) : ''}
@@ -82,6 +85,7 @@ const WallImagesCard = ({ wallInfo }: { wallInfo: Record<string, any> }) => {
           marginBottom: '14px',
         }}
       />
+      </Link>
       <Box
         sx={{
           padding: '8px',
