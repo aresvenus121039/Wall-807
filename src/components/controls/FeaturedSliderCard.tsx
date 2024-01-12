@@ -112,6 +112,7 @@ const FeaturedSliderCard: React.FC<FeaturedSliderCardProps> = ({ image }) => {
         maxWidth: '1440px',
         width: '100%',
         margin: 'auto',
+        position: 'relative'
       }}
     >
       <Slider ref={sliderRef} {...settings}>
@@ -154,15 +155,6 @@ const FeaturedSliderCard: React.FC<FeaturedSliderCardProps> = ({ image }) => {
           </Box>
           <Box
             sx={{
-              position: 'relative',
-              top: {
-                xs: '-160px',
-                sm: '-265px',
-              },
-              right: {
-                xs: '7px',
-                sm: '0px',
-              },
               zIndex: 10,
             }}
           >
