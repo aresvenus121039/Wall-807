@@ -6,6 +6,7 @@ export { default as HighwoodsLogo } from './HighwoodsLogo';
 export { default as GoldfarbLogo } from './GoldfarbLogo';
 export { default as LeftArrowIcon } from './LeftArrowIcon';
 export { default as RightArrowIcon } from './RightArrowIcon';
+export { default as Right_square } from './Right_square';
 export { default as LoopNetIcon } from './LoopNetIcon';
 export { default as MillcreekLogo } from './MillcreekLogo';
 export { default as RappaportLogo } from './RappaportLogo';

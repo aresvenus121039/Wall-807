@@ -9,6 +9,16 @@ import ButtonUnstyled, {
 } from '@mui/core/ButtonUnstyled';
 import { Box, CardMedia, Typography, Grid } from '@mui/material';
 import { cloudflareImage } from '@/utility/images';
+import { makeStyles } from '@mui/styles';
+import { Right_square } from './../icons/index';
+
+const useStyles = makeStyles((theme: any) => ({
+  wrapGrid: {
+    '&:hover div': {
+      opacity: 1,
+    },
+  },
+}));
 
 const CustomButtonRoot = styled('button')(`
   background: transparent;
@@ -62,6 +72,7 @@ const WallImagesCard = ({ wallInfo }: { wallInfo: Record<string, any> }) => {
   const info = _.get(wallInfo, 'info', {}) || {};
   const address = _.get(wallInfo, 'address', {}) || {};
   const slug = _.get(wallInfo, 'slug', {}) || {};
+  const classes = useStyles();
 
   return (
     <Box
@@ -70,7 +81,9 @@ const WallImagesCard = ({ wallInfo }: { wallInfo: Record<string, any> }) => {
         borderRadius: '40px 40px 16px 16px',
         background: 'rgba(255, 255, 255, 0.10)',
         padding: '16px',
+        position: 'relative'
       }}
+      className={classes.wrapGrid}
     >
       <Link href={`/wall/${slug}`}>
       <CardMedia
@@ -86,6 +99,18 @@ const WallImagesCard = ({ wallInfo }: { wallInfo: Record<string, any> }) => {
         }}
       />
       </Link>
+      <Box
+        sx={{
+          position: 'absolute',
+          left: '50%',
+          top: '40%',
+          transform: 'translate(-50%, -50%)',
+          opacity: 0,
+          transition: '0.5s',
+        }}
+      >
+        <Right_square />
+      </Box>
       <Box
         sx={{
           padding: '8px',
