@@ -140,10 +140,9 @@ const FeaturedSliderCard: React.FC<FeaturedSliderCardProps> = ({ image }) => {
             flexDirection: 'row',
             justifyContent: 'space-between',
             position: 'absolute',
-            right: '0px',
-            bottom: '-100px',
+            right: '23px',
+            bottom: '22px',
             gap: '10px',
-            marginTop: '20px'
           }}
         >
           <Box
