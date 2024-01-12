@@ -10,15 +10,21 @@ const WallDetailsLabel: FC<WallDetailsLabelProps> = (props) => {
   const { styleWrap, text } = props;
 
   return (
-    <Chip
-      sx={{
-        ...styleWrap,
-        borderRadius: '12px',
-        border: '1px solid rgba(255, 255, 255, 0.30)',
-        background: 'rgba(255, 255, 255, 0.15)',
-      }}
-      label={text}
-    />
+    <>
+      {
+        text == "" || text == null ? (<></>) : (
+          <Chip
+            sx={{
+              ...styleWrap,
+              borderRadius: '12px',
+              border: '1px solid rgba(255, 255, 255, 0.30)',
+              background: 'rgba(255, 255, 255, 0.15)',
+            }}
+            label={text}
+          />
+        )
+      }
+    </>
   );
 };
 
