@@ -98,7 +98,6 @@ const WallImagesCard = ({ wallInfo }: { wallInfo: Record<string, any> }) => {
           marginBottom: '14px',
         }}
       />
-      </Link>
       <Box
         sx={{
           position: 'absolute',
@@ -111,6 +110,7 @@ const WallImagesCard = ({ wallInfo }: { wallInfo: Record<string, any> }) => {
       >
         <Right_square />
       </Box>
+      </Link>
       <Box
         sx={{
           padding: '8px',
