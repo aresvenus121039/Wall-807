@@ -38,7 +38,7 @@ const WallDetailsHeadInfo: React.FC<WallDetailsHeadInfoProps> = (props) => {
       <Grid container>
         <Grid
           item
-          xs={8}
+          xs={12}
           sx={{
             mt: 2,
           }}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Container, Grid, Typography, CardMedia } from '@mui/material';
+import { Box,Button, Container, Grid, Typography, CardMedia } from '@mui/material';
 import {
   Wash,
   Stairs,
@@ -464,7 +464,7 @@ const WallDetailsSection: React.FC<WallDetailsSectionProps> = (props) => {
 
         <Grid item xs={12} md={6}>
           {/* details */}
-          <Box
+          <Button
             sx={{
               display: 'flex',
               padding: '18px 48px',
@@ -483,10 +483,12 @@ const WallDetailsSection: React.FC<WallDetailsSectionProps> = (props) => {
               fontWeight: '900',
               lineHeight: '25px',
               marginTop: '20px',
+              textTransform: 'uppercase',
+              width: '100%'
             }}
           >
             Wall Details
-          </Box>
+          </Button>
         </Grid>
       </Grid>
 

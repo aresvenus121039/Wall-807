@@ -147,7 +147,7 @@ const WallDetailsBoxIcon: React.FC<WallDetailsBoxIconProps> = (props: any) => {
               xs: '0 0 0 8px',
               sm: '0 0 0 12px',
             },
-            textTransform: 'capitalize',
+            textTransform: 'uppercase',
             letterSpacing: '2.56px',
             lineHeight: '22px',
           }}

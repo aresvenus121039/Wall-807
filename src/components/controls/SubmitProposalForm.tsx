@@ -455,7 +455,7 @@ const SubmitProposalForm: React.FC<{ styleWrap: any }> = (props) => {
                         textLabel=""
                         name="hotelCharges"
                         typeInput="number"
-                        inputProps={{ min: 0, max: 1000 }}
+                        inputProps={{ min: 0 }}
                         prefix={
                           <Typography sx={{ color: 'white' }}>$</Typography>
                         }
@@ -478,7 +478,7 @@ const SubmitProposalForm: React.FC<{ styleWrap: any }> = (props) => {
                         textLabel="Travel"
                         name="travelCost"
                         typeInput="number"
-                        inputProps={{ min: 1, max: 1000 }}
+                        inputProps={{ min: 1 }}
                         prefix={
                           <Typography sx={{ color: 'white' }}>$</Typography>
                         }
@@ -501,7 +501,7 @@ const SubmitProposalForm: React.FC<{ styleWrap: any }> = (props) => {
                         textLabel="Paint + Materials"
                         name="paintAndMaterialCost"
                         typeInput="number"
-                        inputProps={{ min: 0, max: 1000 }}
+                        inputProps={{ min: 0 }}
                         prefix={
                           <Typography sx={{ color: 'white' }}>$</Typography>
                         }

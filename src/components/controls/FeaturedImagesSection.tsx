@@ -30,10 +30,6 @@ const FeaturedImagesSection = ({
           md={4}
           sx={{
             margin: { xs: '-60px auto auto auto', sm: '0px auto auto auto' },
-            paddingTop: {
-              xs: '40px !important',
-              sm: '80px',
-            },
           }}
         >
           <Grid container>
