@@ -85,7 +85,9 @@ const WallImagesCard = ({ wallInfo }: { wallInfo: Record<string, any> }) => {
       }}
       className={classes.wrapGrid}
     >
-      <Link href={`/wall/${slug}`}>
+      <Link href={`/wall/${slug}`}
+        style={{textDecoration: 'none'}}
+      >
       <CardMedia
         component="img"
         image={images.length > 0 ? cloudflareImage(images[0].location) : ''}
