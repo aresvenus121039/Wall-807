@@ -110,7 +110,7 @@ const WallImagesCard = ({ wallInfo }: { wallInfo: Record<string, any> }) => {
       >
         <Right_square />
       </Box>
-      </Link>
+      
       <Box
         sx={{
           padding: '8px',
@@ -224,6 +224,7 @@ const WallImagesCard = ({ wallInfo }: { wallInfo: Record<string, any> }) => {
           </Typography>
         </Grid>
       </Grid>
+      </Link>
     </Box>
   );
 };
