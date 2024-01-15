@@ -616,7 +616,8 @@ const Wall = (props: any) => {
             marginBottom: {
               xs: '5rem',
               sm: '10rem',
-              position: 'relative'
+              position: 'relative',
+              overflow: 'hidden'
             },
           }}
         >
@@ -741,6 +742,7 @@ const Wall = (props: any) => {
               sx={{
                 position: 'relative',
                 zIndex: 1,
+                overflow: 'hidden'
               }}
             >
               <Box
