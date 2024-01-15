@@ -18,8 +18,8 @@ const ProcessTextIcon: React.FC<ProcessTextIconProps> = ({
       sx={{
         padding: '48px',
         borderRadius: '24px',
-        border: '1px solid var(--opacity-white-white-35)',
-        background: 'var(--opacity-white-white-10)',
+        border: '1px solid rgba(177, 78, 255, 0.35)',
+        background: 'rgba(177, 78, 255, 0.10)',
         display: 'flex',
         flexDirection: 'column',
         height: '100%',

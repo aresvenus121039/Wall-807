@@ -602,9 +602,24 @@ const Wall = (props: any) => {
             marginBottom: {
               xs: '5rem',
               sm: '10rem',
+              position: 'relative'
             },
           }}
         >
+          <Box
+              sx={{
+                width: '1696px',
+                height: '772px',
+                filter: 'blur(240px)',
+                position: 'absolute',
+                left: '-50%',
+                top: 0,
+                transform: 'translateY(-50%)',
+                zIndex: -100,
+                borderRadius: '133px',
+                background: 'linear-gradient(348deg, #40A4E2 9.01%, #B14EFF 90.87%)'
+              }}
+            />
           <LocationMapContainer
             bearing={-128.61}
             doubleClickZoom={false}
@@ -629,6 +644,8 @@ const Wall = (props: any) => {
         <Box
           sx={{
             zIndex: 1,
+            paddingLeft: '145px',
+            paddingRight: '145px'
           }}
         >
           {/* process section */}
