@@ -5,7 +5,7 @@ import { RightArrowIcon, LeftArrowIcon } from './../icons/index';
 import ButtonUnstyled, {
   buttonUnstyledClasses,
 } from '@mui/core/ButtonUnstyled';
-import { Box, CardMedia } from '@mui/material';
+import { Box, Button, CardMedia } from '@mui/material';
 import { cloudflareImage } from '@/utility/images';
 
 const CustomButtonRoot = styled('button')(`
@@ -133,6 +133,34 @@ const FeaturedSliderCard: React.FC<FeaturedSliderCardProps> = ({ image }) => {
           />
         ))}
       </Slider>
+      <Box
+          sx={{
+            position: 'absolute',
+            left: '23px',
+            bottom: '22px'
+          }}
+        >
+          <Button
+            sx={{
+              padding: '18px 48px',
+              borderRadius: '12px',
+              border: '1px solid rgba(255, 255, 255, 0.35)',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              background: '#9f63b0',
+              color: '#FFF',
+              fontFamily: 'Roboto',
+              fontSize: '16px',
+              fontWeight: '900',
+              lineHeight: '22px',
+              fontVariant: 'all-small-caps',
+              letterSpacing: '2.56px'
+            }}
+          >
+            DOWNLOAD IMAGE
+          </Button>
+        </Box>
       {imageLength > 1 && (
         <Box
           sx={{
