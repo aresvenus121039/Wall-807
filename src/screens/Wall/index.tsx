@@ -617,7 +617,7 @@ const Wall = (props: any) => {
               xs: '5rem',
               sm: '10rem',
               position: 'relative',
-              overflow: 'hidden'
+              overflowX: 'clip'
             },
           }}
         >
@@ -742,7 +742,7 @@ const Wall = (props: any) => {
               sx={{
                 position: 'relative',
                 zIndex: 1,
-                overflow: 'hidden'
+                overflowX: 'clip'
               }}
             >
               <Box
