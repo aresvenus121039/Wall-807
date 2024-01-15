@@ -213,7 +213,7 @@ const Wall = (props: any) => {
               <Grid
                 container
                 spacing={{ xs: 10, sm: 3, md: 4, lg: 4, xl: 4 }}
-                sx={{ marginBottom: '1rem' }}
+                sx={{ marginBottom: '2rem' }}
               >
                 <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
                   <Box
@@ -593,7 +593,7 @@ const Wall = (props: any) => {
                     <Box
                       sx={{
                         boxShadow:
-                          'rgba(177, 78, 255, 0.70) 0px 0px 112px 11px',
+                          'rgba(177, 78, 255, 0.70) 0px 0px 112px 51px',
                         borderRadius: '24px',
                       }}
                     >
@@ -674,8 +674,8 @@ const Wall = (props: any) => {
         <Box
           sx={{
             zIndex: 1,
-            paddingLeft: '145px',
-            paddingRight: '145px',
+            paddingLeft: '9rem',
+            paddingRight: '9rem',
             overflowX: 'clip'
           }}
         >

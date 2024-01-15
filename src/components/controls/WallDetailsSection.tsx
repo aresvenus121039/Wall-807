@@ -375,7 +375,7 @@ const WallDetailsSection: React.FC<WallDetailsSectionProps> = (props) => {
               }}
             >
               <Typography component="h3" className={classes.typography}>
-                Accommodations
+                Property Details
               </Typography>
             </Box>
 

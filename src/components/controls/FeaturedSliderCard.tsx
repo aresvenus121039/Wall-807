@@ -109,7 +109,7 @@ const FeaturedSliderCard: React.FC<FeaturedSliderCardProps> = ({ image }) => {
   return (
     <Box
       sx={{
-        maxWidth: '1440px',
+        // maxWidth: '1440px',
         width: '100%',
         margin: 'auto',
         position: 'relative'

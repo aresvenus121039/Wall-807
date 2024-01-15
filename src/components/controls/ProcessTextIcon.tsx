@@ -49,7 +49,7 @@ const ProcessTextIcon: React.FC<ProcessTextIconProps> = ({
         component="h4"
         sx={{
           color: 'var(--white)',
-          fontFamily: 'var(--font-family-formulacondesned)',
+          fontFamily: 'var(--font-family-formulacondensed)',
           fontSize: {
             xs: '14px',
             sm: '22px',
