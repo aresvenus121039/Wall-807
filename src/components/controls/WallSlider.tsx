@@ -89,7 +89,7 @@ const WallImagesCard = ({ wallInfo }: { wallInfo: Record<string, any> }) => {
       className={classes.wrapGrid}
     >
       <Link href={`/wall/${slug}`}
-        style={{textDecoration: 'none'}}
+        style={{textDecoration: 'none', outline: 'none'}}
       >
       <CardMedia
         component="img"
