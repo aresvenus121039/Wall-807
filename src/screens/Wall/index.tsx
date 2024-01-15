@@ -175,7 +175,21 @@ const Wall = (props: any) => {
         >
           <Grid container>
             {/* Featured Images Section */}
-            <Grid item xs={12} md={12} lg={12} xl={12}>
+            <Grid item xs={12} md={12} lg={12} xl={12} sx={{position: 'relative'}}>
+            <Box
+                sx={{
+                  transform: 'rotate(-65.047deg)',
+                  width: '1696px',
+                  height: '772px',
+                  filter: 'blur(200px)',
+                  position: 'absolute',
+                  left: 0,
+                  top: '-71%',
+                  zIndex: -100,
+                  borderRadius: '133px',
+                  background: 'linear-gradient(348deg, #40A4E2 9.01%, #B14EFF 90.87%)'
+                }}
+                ></Box>
               <Box sx={{ paddingTop: '9.125rem' }}>
                 <FeaturedImagesSection
                   featureImage={carousalImages}
@@ -612,9 +626,9 @@ const Wall = (props: any) => {
                 height: '772px',
                 filter: 'blur(240px)',
                 position: 'absolute',
-                left: '-50%',
-                top: 0,
-                transform: 'translateY(-50%)',
+                left: '-62%',
+                top: '-64%',
+                transform: 'rotate(21.997deg)',
                 zIndex: -100,
                 borderRadius: '133px',
                 background: 'linear-gradient(348deg, #40A4E2 9.01%, #B14EFF 90.87%)'
