@@ -66,7 +66,7 @@ const ControlledInputSlider: React.FC<ControlledInputSliderProps> = (props) => {
             marks={marks}
             min={min}
             max={max}
-            defaultValue={values[name]}
+            defaultValue={name != "pricePerSqft" ? values[name] : '100'}
             onChange={onChange}
           />
         </Box>

@@ -60,7 +60,7 @@ const WallDetailsBoxIcon: React.FC<WallDetailsBoxIconProps> = (props: any) => {
         >
           <Box
             sx={{
-              backgroundColor: '#FFF',
+              backgroundColor: 'black',
               p: '8px',
               borderRadius: '4px',
             }}
