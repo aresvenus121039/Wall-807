@@ -496,7 +496,7 @@ const WallDetailsSection: React.FC<WallDetailsSectionProps> = (props) => {
       {artStyles && (
         <Box>
           <Typography component="h3" className={classes.typography}>
-            Interested Art Styles
+            Desired Art Styles
           </Typography>
 
           <Grid container>

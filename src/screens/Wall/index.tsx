@@ -634,6 +634,21 @@ const Wall = (props: any) => {
                 background: 'linear-gradient(348deg, #40A4E2 9.01%, #B14EFF 90.87%)'
               }}
             />
+
+          <Box
+            sx={{
+              width: '1696px',
+              height: '772px',
+              filter: 'blur(240px)',
+              position: 'absolute',
+              right: '-60%',
+              top: '60%',
+              transform: 'rotate(21.997deg)',
+              zIndex: -100,
+              borderRadius: '133px',
+              background: 'linear-gradient(348deg, #40A4E2 9.01%, #B14EFF 90.87%)'
+            }}
+          />
           <LocationMapContainer
             bearing={-128.61}
             doubleClickZoom={false}
@@ -678,15 +693,16 @@ const Wall = (props: any) => {
             {/* blur */}
             <Box
               sx={{
-                width: '268px',
-                height: '268px',
-                backgroundColor: '#B14EFF',
-                filter: 'blur(230px)',
+                width: '433px',
+                height: '436px',
+                background: 'linear-gradient(348deg, #40A4E2 9.01%, #B14EFF 90.87%)',
+                filter: 'blur(240px)',
                 position: 'absolute',
-                left: 0,
-                top: '50%',
-                transform: 'translateY(-50%)',
+                left: '-16%',
+                top: '5%',
+                transform: 'rotate(-31.922deg)',
                 zIndex: -100,
+                borderRadius: '133px'
               }}
             />
 
@@ -727,6 +743,19 @@ const Wall = (props: any) => {
                 zIndex: 1,
               }}
             >
+              <Box
+                sx={{
+                  width: '1081px',
+                  height: '470px',
+                  background: 'linear-gradient(348deg, #40A4E2 9.01%, #B14EFF 90.87%)',
+                  filter: 'blur(180px)',
+                  position: 'absolute',
+                  right: '-20%',
+                  top: '29%',
+                  zIndex: -100,
+                  transform: 'rotate(-15deg)'
+                }}
+              />
               {/* <Typography
                 component={'p'}
                 sx={{
