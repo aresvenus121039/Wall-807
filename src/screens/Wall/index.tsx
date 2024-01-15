@@ -675,7 +675,8 @@ const Wall = (props: any) => {
           sx={{
             zIndex: 1,
             paddingLeft: '145px',
-            paddingRight: '145px'
+            paddingRight: '145px',
+            overflowX: 'clip'
           }}
         >
           {/* process section */}
@@ -742,7 +743,6 @@ const Wall = (props: any) => {
               sx={{
                 position: 'relative',
                 zIndex: 1,
-                overflowX: 'clip'
               }}
             >
               <Box
